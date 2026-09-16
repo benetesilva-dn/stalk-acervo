@@ -169,14 +169,15 @@
         "BR"
       ],
       "idioma": "pt",
-      "nicho": "figado e queima de gordura",
+      "nicho": "figado / emagrecimento / queima de gordura",
       "nichos_adjacentes": [
-        "emagrecimento",
         "gordura na barriga",
         "detox",
         "glicemia",
         "intestino",
-        "cansaco"
+        "cansaco",
+        "metabolismo",
+        "energia"
       ],
       "publico": "40+ com gordura teimosa na barriga, cansaco, que ja tentou dieta",
       "especialista": "Dr. Fausto Almeida (gastroenterologia, Harvard Medical School)",
@@ -230,7 +231,8 @@
         "20741",
         "20750"
       ],
-      "campanhas_ativas": 6
+      "campanhas_ativas": 6,
+      "_nota_emagrecimento": "liver e bb dividem emagrecimento por decisao do usuario (2026-09-16): os dois sao produtos de emagrecimento, entao tudo que serve a um deve aparecer para o outro. Por isso emagrecimento e nicho PRINCIPAL nos dois, e nao principal num e adjacente no outro — senao um sequestraria o outro."
     },
     {
       "tag": "map",
@@ -409,7 +411,8 @@
         "Weight Loss",
         "Gut Health",
         "Other Supplements"
-      ]
+      ],
+      "_nota_emagrecimento": "liver e bb dividem emagrecimento por decisao do usuario (2026-09-16): os dois sao produtos de emagrecimento, entao tudo que serve a um deve aparecer para o outro. Por isso emagrecimento e nicho PRINCIPAL nos dois, e nao principal num e adjacente no outro — senao um sequestraria o outro."
     }
   ]
 }
