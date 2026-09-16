@@ -365,35 +365,39 @@
         "233"
       ],
       "campanhas_ativas": 1,
-      "_confianca": "INFERIDO dos nomes de oferta — sem VSL. CONFIRMAR com o usuario.",
-      "nicho": "caldo de ossos / dieta",
+      "_confianca": "Nicho confirmado pelo usuario em 2026-09-16: a dor e emagrecimento/energia/intestino. NAO e cartilagem nem joelho — era erro meu, e fazia o bb disputar joelho com h50 e pele com cells.",
+      "nicho": "emagrecimento / energia / intestino",
       "nichos_adjacentes": [
-        "emagrecimento",
-        "intestino",
-        "articulacoes",
-        "colageno",
-        "pele"
+        "caldo de ossos",
+        "metabolismo",
+        "inchaco",
+        "digestao",
+        "disposicao",
+        "gordura na barriga"
       ],
-      "publico": "mulheres 40+ em dieta (a confirmar)",
+      "publico": "mulheres 40+ que querem emagrecer e recuperar disposicao",
       "produtos_satelite": [
         "Livro A Revolucionaria Dieta do Caldo de Ossos",
         "Curso Online",
         "Desafio 21 Dias"
       ],
       "termos_pt": [
-        "caldo de ossos",
-        "dieta",
         "emagrecer",
+        "energia",
+        "disposicao",
         "intestino",
-        "colageno",
+        "inchaco",
+        "caldo de ossos",
+        "metabolismo",
         "barriga"
       ],
       "termos_en": [
         "bone broth",
+        "weight loss",
         "belly fat",
         "gut health",
-        "collagen",
-        "weight loss",
+        "bloating",
+        "energy",
         "metabolism"
       ],
       "categorias_adplexity": [

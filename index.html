@@ -7,40 +7,45 @@
 <title>Acervo de Stalk</title>
 <style>
 :root{
-  --bg:#f6f6f4; --card:#fff; --linha:#e3e2de; --tinta:#1a1a18; --fraco:#6b6a65;
-  --acento:#2f6f4e; --aprova:#2f6f4e; --recusa:#9a3b32; --standby:#8a6d1f;
-  --tagbg:#efeeea;
+  --bg:#f6f6f4; --lado:#efeeea; --card:#fff; --linha:#e3e2de; --tinta:#1a1a18; --fraco:#6b6a65;
+  --acento:#2f6f4e; --aprova:#2f6f4e; --recusa:#9a3b32; --standby:#8a6d1f; --tagbg:#efeeea;
 }
 @media (prefers-color-scheme:dark){
-  :root{--bg:#16161a; --card:#1e1e23; --linha:#32323a; --tinta:#eceaf0; --fraco:#9a98a3;
+  :root{--bg:#16161a; --lado:#1b1b20; --card:#1e1e23; --linha:#32323a; --tinta:#eceaf0; --fraco:#9a98a3;
         --acento:#5fb98a; --aprova:#5fb98a; --recusa:#e08a80; --standby:#d4b45c; --tagbg:#2a2a31;}
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tinta);
   font:14px/1.45 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--linha);
-  padding:12px 16px 8px}
-h1{margin:0;font-size:17px;letter-spacing:-.01em;display:inline}
-.meta{color:var(--fraco);font-size:12px;margin-left:10px}
-.barrafiltros{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center}
-.grupo{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
-.grupo>b{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--fraco);
-  margin-right:2px;align-self:center}
+.app{display:flex;align-items:flex-start;min-height:100vh}
+
+/* ---------- lateral ---------- */
+aside{width:236px;flex:0 0 236px;background:var(--lado);border-right:1px solid var(--linha);
+  position:sticky;top:0;height:100vh;overflow-y:auto;padding:16px 14px 24px}
+aside h1{margin:0 0 2px;font-size:16px;letter-spacing:-.01em}
+.meta{color:var(--fraco);font-size:11px;line-height:1.4;margin-bottom:14px;display:block}
+.bloco{margin-bottom:16px}
+.bloco>b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--fraco);margin-bottom:6px}
+.chips{display:flex;gap:4px;flex-wrap:wrap}
 .chip{border:1px solid var(--linha);background:var(--card);color:var(--tinta);border-radius:999px;
-  padding:3px 9px;font-size:12px;cursor:pointer;white-space:nowrap}
+  padding:3px 9px;font-size:12px;cursor:pointer;white-space:nowrap;text-align:left}
 .chip:hover{border-color:var(--fraco)}
 .chip[aria-pressed=true]{background:var(--tinta);color:var(--bg);border-color:var(--tinta)}
 .chip i{font-style:normal;opacity:.55;margin-left:4px;font-size:11px}
-input[type=search],select{border:1px solid var(--linha);background:var(--card);color:var(--tinta);
-  border-radius:8px;padding:5px 9px;font:inherit;font-size:12px}
-input[type=search]{min-width:170px;flex:1}
+aside input,aside select{width:100%;border:1px solid var(--linha);background:var(--card);
+  color:var(--tinta);border-radius:8px;padding:6px 9px;font:inherit;font-size:12px}
+.limpafiltro{margin-top:4px;border:0;background:none;color:var(--fraco);font:inherit;font-size:11px;
+  cursor:pointer;text-decoration:underline;padding:0}
+.abrirfiltros{display:none}
 
-main{display:grid;gap:12px;padding:16px;
-  grid-template-columns:repeat(auto-fill,minmax(310px,1fr));padding-bottom:110px}
+/* ---------- grade ---------- */
+main{flex:1;min-width:0;padding:16px;padding-bottom:120px}
+.grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
 .card{background:var(--card);border:1px solid var(--linha);border-radius:12px;overflow:hidden;
   display:flex;flex-direction:column}
 .card.decidida{opacity:.5}
-.thumb{aspect-ratio:16/9;background:var(--tagbg);overflow:hidden;position:relative}
+.thumb{aspect-ratio:16/9;background:var(--tagbg);overflow:hidden}
 .thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .corpo{padding:10px 12px 12px;display:flex;flex-direction:column;gap:7px;flex:1}
 .topo{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
@@ -51,7 +56,7 @@ main{display:grid;gap:12px;padding:16px;
 .tags{display:flex;gap:4px;flex-wrap:wrap}
 .tag{background:var(--tagbg);border-radius:5px;padding:1px 6px;font-size:11px;color:var(--fraco)}
 .tag.tr{background:var(--acento);color:#fff;font-weight:600}
-.tag.pr{border:1px solid var(--acento);color:var(--acento)}
+.tag.pr{border:1px solid var(--acento);color:var(--acento);background:none}
 h3{margin:0;font-size:13px;font-weight:500;line-height:1.35}
 .lnk{font-size:11px;color:var(--fraco);display:flex;gap:6px;align-items:center;
   overflow:hidden;white-space:nowrap}
@@ -69,12 +74,15 @@ h3{margin:0;font-size:13px;font-weight:500;line-height:1.35}
 .form.aberto{display:flex}
 .form input{flex:1;min-width:120px;border:1px solid var(--linha);background:var(--bg);
   color:var(--tinta);border-radius:6px;padding:4px 8px;font:inherit;font-size:12px}
+.form>b{font-size:11px;color:var(--fraco);align-self:center}
 .mini{border:1px solid var(--linha);background:var(--bg);color:var(--fraco);border-radius:999px;
   padding:2px 8px;font-size:11px;cursor:pointer}
 .mini:hover{color:var(--tinta);border-color:var(--fraco)}
+.mini.sug{border-color:var(--acento);color:var(--acento)}
 .estado{font-size:11px;font-weight:600}
 .estado.aprovado{color:var(--aprova)} .estado.recusado{color:var(--recusa)}
 .estado.standby{color:var(--standby)}
+.vazio{padding:40px 16px;text-align:center;color:var(--fraco);grid-column:1/-1}
 
 footer{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);
   border-top:1px solid var(--linha);padding:10px 16px;display:none}
@@ -86,18 +94,33 @@ footer.tem{display:block}
 .fila button{border:1px solid var(--tinta);background:var(--tinta);color:var(--bg);border-radius:8px;
   padding:8px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
 .fila .limpar{background:transparent;color:var(--fraco);border-color:var(--linha);font-weight:400}
-.vazio{padding:40px 16px;text-align:center;color:var(--fraco);grid-column:1/-1}
-@media(max-width:520px){main{padding:12px;gap:10px;grid-template-columns:1fr}header{padding:10px 12px 8px}}
+
+/* ---------- telas estreitas: a lateral vira gaveta ---------- */
+@media(max-width:760px){
+  .app{display:block}
+  aside{position:fixed;z-index:40;left:0;top:0;bottom:0;width:80vw;max-width:300px;height:100vh;
+    transform:translateX(-100%);transition:transform .18s ease;box-shadow:0 0 30px rgba(0,0,0,.25)}
+  aside.aberta{transform:none}
+  main{padding:56px 12px 120px}
+  .grade{grid-template-columns:1fr;gap:10px}
+  .abrirfiltros{display:block;position:fixed;z-index:35;top:8px;left:8px;
+    border:1px solid var(--linha);background:var(--card);color:var(--tinta);border-radius:8px;
+    padding:6px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+}
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Acervo de Stalk</h1><span class="meta" id="meta">carregando…</span>
-  <div class="barrafiltros" id="filtros"></div>
-</header>
+<button class="abrirfiltros" id="abrir">Filtros</button>
 
-<main id="grade"><div class="vazio">carregando…</div></main>
+<div class="app">
+  <aside id="lado">
+    <h1>Acervo de Stalk</h1>
+    <span class="meta" id="meta">carregando…</span>
+    <div id="filtros"></div>
+  </aside>
+  <main><div class="grade" id="grade"><div class="vazio">carregando…</div></div></main>
+</div>
 
 <footer id="barra">
   <div class="fila">
@@ -111,25 +134,24 @@ footer.tem{display:block}
 /* ============================================================================
  * Painel do acervo de stalk — uma VIEW de acervo.json, nada mais.
  *
- * Ele NAO e a fonte da verdade e nao guarda estado de verdade: as decisoes
- * vivem em decisoes.jsonl no repo. O localStorage aqui so segura os cliques
- * ainda nao enviados, para voce nao perder o trabalho ao fechar a aba.
+ * Ele NAO e a fonte da verdade: as decisoes vivem em decisoes.jsonl no repo.
+ * O localStorage aqui so segura os cliques ainda nao enviados, para voce nao
+ * perder o trabalho ao fechar a aba.
  *
- * O botao nao escreve em servidor nenhum de proposito: pagina estatica nao
- * pode guardar credencial sem expor. Entao ela monta uma linha, voce cola no
- * Claude, e o Claude escreve. Zero infra para manter.
+ * O botao nao escreve em servidor nenhum de proposito: pagina estatica nao pode
+ * guardar credencial sem expor. Ela monta uma linha, voce cola no Claude, e o
+ * Claude escreve. Zero infra para manter.
  * ==========================================================================*/
 const PEND = 'stalk_pendentes_v1';
 let ACERVO = null, PRODUTOS = [], pend = {};
 try { pend = JSON.parse(localStorage.getItem(PEND) || '{}'); } catch (e) { pend = {}; }
 
-/* motivos pre-codificados: um clique na maioria dos casos, e — mais importante —
-   motivo repetido vira criterio automatico depois. Texto livre continua valendo
-   para o que ainda nao tem codigo. */
+/* motivos pre-codificados: um clique na maioria dos casos e — o que importa mais —
+   motivo repetido vira criterio automatico depois. Texto livre continua valendo. */
 const MOTIVOS = ['pagina de venda', 'arbitragem de clique', 'nicho sem produto nosso',
   'ja modelamos parecido', 'criativo fraco', 'landing nao abre', 'pouca distribuicao'];
 
-const filtros = { trilha: '', produto: '', nicho: '', transicao: '', formato: '', estado: '', fonte: '', q: '' };
+const filtros = { trilha: '', produto: '', nicho: '', transicao: '', estado: '', fonte: '', q: '' };
 let ordem = 'dias';
 
 const salvar = () => { try { localStorage.setItem(PEND, JSON.stringify(pend)); } catch (e) {} desenharBarra(); };
@@ -142,52 +164,55 @@ async function carregar() {
   ]);
   ACERVO = a; PRODUTOS = (p.produtos || []).filter(x => x.nicho);
   const L = Object.values(a.ofertas);
-  document.getElementById('meta').textContent =
-    L.length + ' ofertas · ' + a.coletas.length + ' coletas · atualizado ' + a.atualizado;
+  document.getElementById('meta').innerHTML =
+    L.length + ' ofertas · ' + a.coletas.length + ' coletas<br>atualizado ' + a.atualizado;
   montarFiltros(L); desenhar();
 }
 
-/* ---------- filtros com contagem ---------- */
-function conta(L, campo, val) {
-  return L.filter(o => valor(o, campo) === val).length;
-}
+/* ---------- filtros ---------- */
+/* produto filtra por produtos_possiveis, nao so pelo primeiro: 104 ofertas batem
+   com mais de um produto (emagrecimento serve bb E liver), e esconder a segunda
+   opcao atras da ordenacao seria eu decidindo por voce */
 function valor(o, campo) {
   if (campo === 'trilha') return o.trilha || '';
-  if (campo === 'produto') return o.produto_alvo || '';
   if (campo === 'nicho') return o.nicho || '';
   if (campo === 'transicao') return o.transicao ? 'sim' : (o.formato_destino ? 'nao' : '');
-  if (campo === 'formato') return o.formato_destino || '';
   if (campo === 'estado') return o.estado || 'novo';
   if (campo === 'fonte') return (o.fontes || []).join('+');
   return '';
 }
+const bate = (o, campo, v) => campo === 'produto'
+  ? (o.produtos_possiveis || []).includes(v)
+  : valor(o, campo) === v;
+
 function montarFiltros(L) {
-  const box = document.getElementById('filtros');
   const defs = [
     ['trilha', 'trilha', ['A', 'B']],
-    ['produto', 'produto', PRODUTOS.map(p => p.tag)],
     ['transicao', 'transição', ['sim', 'nao']],
+    ['produto', 'produto', PRODUTOS.map(p => p.tag)],
     ['estado', 'estado', ['novo', 'aprovado', 'recusado', 'standby']],
     ['fonte', 'fonte', [...new Set(L.map(o => valor(o, 'fonte')))].filter(Boolean).sort()]
   ];
-  let html = '';
+  let html = '<div class="bloco"><input type="search" id="fq" placeholder="buscar headline, domínio, ID…"></div>';
+  html += `<div class="bloco"><b>ordenar</b><select id="fordem">
+      <option value="dias">mais dias no ar</option><option value="portais">mais portais</option>
+      <option value="paises">mais países</option><option value="id">ID</option></select></div>`;
   for (const [campo, rotulo, vals] of defs) {
     const itens = vals.map(v => {
-      const n = conta(L, campo, v);
+      const n = L.filter(o => bate(o, campo, v)).length;
       return n ? `<button class="chip" data-f="${campo}" data-v="${esc(v)}" aria-pressed="false">${esc(v)}<i>${n}</i></button>` : '';
     }).join('');
-    if (itens) html += `<span class="grupo"><b>${rotulo}</b>${itens}</span>`;
+    if (itens) html += `<div class="bloco"><b>${rotulo}</b><div class="chips">${itens}</div></div>`;
   }
-  /* nicho tem cauda longa: vira select, nao chip */
+  /* nicho tem cauda longa (dezenas de valores): select, nao chip */
   const nichos = [...new Set(L.map(o => o.nicho).filter(Boolean))].sort();
-  html += `<select id="fnicho"><option value="">todos os nichos</option>` +
-    nichos.map(n => `<option value="${esc(n)}">${esc(n)} (${conta(L, 'nicho', n)})</option>`).join('') + `</select>`;
-  html += `<select id="fordem"><option value="dias">mais dias no ar</option>
-    <option value="portais">mais portais</option><option value="paises">mais países</option>
-    <option value="id">ID</option></select>`;
-  html += `<input type="search" id="fq" placeholder="buscar headline, domínio, ID…">`;
-  box.innerHTML = html;
+  html += `<div class="bloco"><b>nicho</b><select id="fnicho"><option value="">todos</option>` +
+    nichos.map(n => `<option value="${esc(n)}">${esc(n)} (${L.filter(o => o.nicho === n).length})</option>`).join('') +
+    `</select></div>`;
+  html += `<button class="limpafiltro" id="flimpa">limpar filtros</button>`;
 
+  const box = document.getElementById('filtros');
+  box.innerHTML = html;
   box.querySelectorAll('.chip').forEach(b => b.onclick = () => {
     const f = b.dataset.f, v = b.dataset.v;
     filtros[f] = filtros[f] === v ? '' : v;
@@ -198,13 +223,19 @@ function montarFiltros(L) {
   document.getElementById('fnicho').onchange = e => { filtros.nicho = e.target.value; desenhar(); };
   document.getElementById('fordem').onchange = e => { ordem = e.target.value; desenhar(); };
   document.getElementById('fq').oninput = e => { filtros.q = e.target.value.toLowerCase(); desenhar(); };
+  document.getElementById('flimpa').onclick = () => {
+    Object.keys(filtros).forEach(k => filtros[k] = '');
+    box.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', 'false'));
+    document.getElementById('fnicho').value = ''; document.getElementById('fq').value = '';
+    desenhar();
+  };
 }
 
 /* ---------- grade ---------- */
 function filtrar() {
   let L = Object.values(ACERVO.ofertas);
-  for (const k of ['trilha', 'produto', 'nicho', 'transicao', 'formato', 'estado', 'fonte'])
-    if (filtros[k]) L = L.filter(o => valor(o, k) === filtros[k]);
+  for (const k of ['trilha', 'produto', 'nicho', 'transicao', 'estado', 'fonte'])
+    if (filtros[k]) L = L.filter(o => bate(o, k, filtros[k]));
   if (filtros.q) {
     const q = filtros.q;
     L = L.filter(o => (o.id + ' ' + o.landing + ' ' + o.nicho + ' ' +
@@ -220,10 +251,14 @@ function cartao(o) {
   const nums = [o.dias_no_ar ? `<b>${o.dias_no_ar}d</b> no ar` : '',
     o.portais ? `<b>${o.portais}</b> portais` : '',
     o.paises ? `<b>${o.paises}</b> países` : ''].filter(Boolean).join(' · ');
+  /* mostra TODOS os produtos possiveis, com "?" quando o casamento foi fraco —
+     a ambiguidade e informacao, escondê-la seria eu escolhendo por voce */
+  const prods = (o.produtos_possiveis || []).map(t =>
+    `<span class="tag pr">${esc(t)}${t === o.produto_alvo && o.match_por === 'nicho' ? '' : '?'}</span>`).join('');
   const tags = [
     o.transicao ? '<span class="tag tr">transição</span>' : '',
     o.nicho ? `<span class="tag">${esc(o.nicho)}</span>` : '',
-    o.produto_alvo ? `<span class="tag pr">${esc(o.produto_alvo)}${o.match_por === 'nicho' ? '' : '?'}</span>` : '',
+    prods,
     !o.formato_destino ? '<span class="tag">landing não aberta</span>' : ''
   ].join('');
   const jaDecidida = o.estado && o.estado !== 'novo';
@@ -257,18 +292,20 @@ function desenhar() {
 /* ---------- decisao ---------- */
 /* aprovar pede PRODUTO (a marca e por oferta x produto: a mesma landing pode
    virar adv pro cells E pro liver); recusar e standby pedem MOTIVO, sempre —
-   e o motivo, nao a decisao, que ensina o criterio para a fila automatica */
+   e o motivo, nao a decisao, que ensina o criterio da fila automatica */
 function abrirForm(card, acao) {
   const box = card.querySelector('[data-form]');
   const id = card.dataset.id;
+  const o = ACERVO.ofertas[id];
   if (acao === 'aprovado') {
-    box.innerHTML = '<b style="font-size:11px;color:var(--fraco);align-self:center">para qual produto?</b>' +
-      PRODUTOS.map(p => `<button class="mini" data-prod="${esc(p.tag)}">${esc(p.tag)}</button>`).join('');
+    const sug = new Set(o.produtos_possiveis || []);
+    box.innerHTML = '<b>para qual produto?</b>' + PRODUTOS.map(p =>
+      `<button class="mini${sug.has(p.tag) ? ' sug' : ''}" data-prod="${esc(p.tag)}">${esc(p.tag)}</button>`).join('');
     box.querySelectorAll('[data-prod]').forEach(b => b.onclick = () => {
       pend[id] = { estado: 'aprovado', produto: b.dataset.prod }; salvar(); desenhar();
     });
   } else {
-    box.innerHTML = '<b style="font-size:11px;color:var(--fraco);align-self:center">por quê?</b>' +
+    box.innerHTML = '<b>por quê?</b>' +
       MOTIVOS.map(m => `<button class="mini" data-mot="${esc(m)}">${esc(m)}</button>`).join('') +
       `<input placeholder="outro motivo… (Enter)" data-livre>`;
     const reg = m => { if (!m) return; pend[id] = { estado: acao, motivo: m }; salvar(); desenhar(); };
@@ -297,6 +334,11 @@ document.addEventListener('click', e => {
   }
 });
 
+/* gaveta no celular */
+const lado = document.getElementById('lado');
+document.getElementById('abrir').onclick = () => lado.classList.toggle('aberta');
+document.getElementById('grade').addEventListener('click', () => lado.classList.remove('aberta'));
+
 /* ---------- a linha ---------- */
 /* formato deliberadamente simples: + aprova, ~ standby, - recusa. Legivel para
    voce, trivial de parsear para o Claude, e nao quebra se voce editar a mao. */
@@ -304,17 +346,14 @@ function montarLinha() {
   const ids = Object.keys(pend);
   if (!ids.length) return '';
   const sig = { aprovado: '+', standby: '~', recusado: '-' };
-  return '@stalk\n' + ids.map(id => {
-    const d = pend[id];
-    return sig[d.estado] + ' ' + id + ' ' + (d.produto || d.motivo || '');
-  }).join('\n');
+  return '@stalk\n' + ids.map(id => sig[pend[id].estado] + ' ' + id + ' ' +
+    (pend[id].produto || pend[id].motivo || '')).join('\n');
 }
 function desenharBarra() {
   const txt = montarLinha();
   document.getElementById('linha').value = txt;
   document.getElementById('barra').classList.toggle('tem', !!txt);
-  document.getElementById('copiar').textContent =
-    'Copiar ' + Object.keys(pend).length + ' para o Claude';
+  document.getElementById('copiar').textContent = 'Copiar ' + Object.keys(pend).length + ' para o Claude';
 }
 document.getElementById('copiar').onclick = () => {
   const t = document.getElementById('linha');
