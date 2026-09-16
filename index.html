@@ -196,9 +196,13 @@ const salvar = () => { try { localStorage.setItem(PEND, JSON.stringify(pend)); }
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 async function carregar() {
+  /* no-cache = revalida sempre (304 quando nao mudou, barato). Sem isso o
+     navegador serve o acervo antigo depois de uma coleta nova, e o painel
+     mostra dado velho sem nenhum aviso — que e pior do que nao mostrar nada. */
+  const pega = u => fetch(u, { cache: 'no-cache' }).then(r => r.json());
   const [a, p] = await Promise.all([
-    fetch('acervo.json').then(r => r.json()),
-    fetch('produtos.json').then(r => r.json()).catch(() => ({ produtos: [] }))
+    pega('acervo.json'),
+    pega('produtos.json').catch(() => ({ produtos: [] }))
   ]);
   ACERVO = a; PRODUTOS = (p.produtos || []).filter(x => x.nicho);
   const L = Object.values(a.ofertas);
