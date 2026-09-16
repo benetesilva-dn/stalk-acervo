@@ -1,0 +1,411 @@
+{
+  "_leia": "Espinha dorsal das tres frentes. O stalk usa 'termos_en'/'categorias_adplexity' para MIRAR a coleta, 'nicho'/'nichos_adjacentes' para dizer a qual produto uma oferta stalkeada compete, e 'advs'/'sfunnel' para ligar o adv produzido a campanha que o carrega e ao ROI dela. Editado a mao. Regenerar advs/sfunnel com: node ferramentas/sincronizar-produtos.mjs",
+  "_atualizado": "2026-09-15",
+  "_trilhas": {
+    "_nota": "O stalk alimenta DUAS filas com criterios OPOSTOS. Nao misturar: a mesma planilha ordenada pelo criterio errado esconde a outra.",
+    "A_mira": {
+      "objetivo": "ofertas que competem com um produto meu — angulo, prova, mecanismo e inteligencia competitiva",
+      "como_buscar": "categorias_adplexity + termos_en de cada produto",
+      "ordenar_por": [
+        "produto_alvo",
+        "dias_no_ar",
+        "portais"
+      ],
+      "entrega": "o que o concorrente do argi/h50/liver/map esta dizendo agora"
+    },
+    "B_estrutura": {
+      "objetivo": "advertorial FORTE de qualquer nicho, para adaptar a estrutura ao meu produto — e o que o usuario ja faz (adv75 liver virou argibeet, h50 e map)",
+      "como_buscar": "agnostico de nicho; filtrar por formato_destino=transicao e ordenar por validacao",
+      "ordenar_por": [
+        "adv_transicao",
+        "dias_no_ar",
+        "portais",
+        "paises",
+        "headlines_distintas"
+      ],
+      "filtro_duro": "adv_transicao=true tem prioridade sobre tudo — pedido explicito do usuario",
+      "entrega": "esqueleto pronto para adaptar",
+      "atencao": "ausencia de classificacao NAO e \"nao e transicao\" — so significa que a landing nao foi aberta. Hoje 1072 de 1301 candidatos estao nesse estado."
+    }
+  },
+  "produtos": [
+    {
+      "tag": "argi",
+      "nome": "ARGIBEET",
+      "operacao": "dn",
+      "mercado": [
+        "BR"
+      ],
+      "idioma": "pt",
+      "nicho": "pressao arterial",
+      "nichos_adjacentes": [
+        "circulacao",
+        "colesterol",
+        "coracao",
+        "disfuncao eretil",
+        "nevoa mental"
+      ],
+      "publico": "homens e mulheres 55+, hipertensos",
+      "especialista": "Dr. Fausto Almeida",
+      "mecanismo": "endotelio / oxido nitrico — 'po roxo japones', beterraba de Okinawa (beet + arginina)",
+      "promessa": "pressao comeca a cair na primeira semana e estabiliza em 12x7",
+      "provas_da_vsl": [
+        "estudo Harvard + Escola de Medicina de Okinawa",
+        "paradoxo japones",
+        "diretriz da OMS 12x7"
+      ],
+      "vsl": "vsls/vsl-argibeet.txt",
+      "termos_pt": [
+        "pressao alta",
+        "hipertensao",
+        "pressao arterial",
+        "endotelio",
+        "oxido nitrico",
+        "beterraba",
+        "circulacao"
+      ],
+      "termos_en": [
+        "blood pressure",
+        "hypertension",
+        "nitric oxide",
+        "beetroot",
+        "artery",
+        "circulation",
+        "cholesterol"
+      ],
+      "categorias_adplexity": [
+        26,
+        81
+      ],
+      "_categorias_nome": [
+        "Hypertension",
+        "Heart Health"
+      ],
+      "advs": [
+        "adv04",
+        "adv10",
+        "adv11",
+        "adv12"
+      ],
+      "sfunnel": [
+        "18957",
+        "20696",
+        "20738",
+        "20747"
+      ],
+      "campanhas_ativas": 4
+    },
+    {
+      "tag": "h50",
+      "nome": "H50",
+      "operacao": "dn",
+      "mercado": [
+        "BR"
+      ],
+      "idioma": "pt",
+      "nicho": "massa muscular 50+",
+      "nichos_adjacentes": [
+        "sarcopenia",
+        "forca",
+        "quedas em idosos",
+        "mobilidade",
+        "dor no joelho",
+        "proteina"
+      ],
+      "publico": "homens e mulheres 60-80+, perda de forca e massa",
+      "especialista": "Dr. Fausto Almeida",
+      "mecanismo": "terapia caseira de 2 minutos por dia para reverter sarcopenia e construir musculo novo",
+      "promessa": "em 4 semanas a fraqueza some; ganho de massa sem academia",
+      "provas_da_vsl": [
+        "caso do seu Antonio, 72 anos, 3,5 kg de musculo",
+        "quase metade dos 80+ tem predisposicao a sarcopenia"
+      ],
+      "vsl": "vsls/vsl-h50.txt",
+      "termos_pt": [
+        "massa muscular",
+        "sarcopenia",
+        "perda de forca",
+        "fraqueza muscular",
+        "queda de idoso",
+        "musculo depois dos 60"
+      ],
+      "termos_en": [
+        "muscle loss",
+        "sarcopenia",
+        "muscle mass after 50",
+        "senior strength",
+        "frailty",
+        "grip strength"
+      ],
+      "categorias_adplexity": [
+        6,
+        30,
+        70
+      ],
+      "_categorias_nome": [
+        "Muscle Gain",
+        "Body Building",
+        "Arthritis"
+      ],
+      "advs": [
+        "adv09",
+        "adv67-01",
+        "adv108",
+        "adv111",
+        "adv111-01"
+      ],
+      "sfunnel": [
+        "8684",
+        "14864",
+        "20371"
+      ],
+      "campanhas_ativas": 7
+    },
+    {
+      "tag": "liver",
+      "nome": "Liver Pro",
+      "operacao": "dn",
+      "mercado": [
+        "BR"
+      ],
+      "idioma": "pt",
+      "nicho": "figado e queima de gordura",
+      "nichos_adjacentes": [
+        "emagrecimento",
+        "gordura na barriga",
+        "detox",
+        "glicemia",
+        "intestino",
+        "cansaco"
+      ],
+      "publico": "40+ com gordura teimosa na barriga, cansaco, que ja tentou dieta",
+      "especialista": "Dr. Fausto Almeida (gastroenterologia, Harvard Medical School)",
+      "mecanismo": "ritual matinal de 30 segundos que desperta a limpeza natural do figado",
+      "promessa": "figado saudavel volta a queimar gordura; alternativa natural a Ozempic/Mounjaro",
+      "provas_da_vsl": [
+        "certificacao Harvard em gastroenterologia",
+        "contraste explicito com as canetinhas e seus efeitos colaterais"
+      ],
+      "vsl": "vsls/vsl-liver.txt",
+      "termos_pt": [
+        "figado gordo",
+        "gordura no figado",
+        "limpar o figado",
+        "detox do figado",
+        "queimar gordura",
+        "barriga teimosa"
+      ],
+      "termos_en": [
+        "fatty liver",
+        "liver detox",
+        "liver cleanse",
+        "belly fat",
+        "stubborn fat",
+        "metabolism"
+      ],
+      "categorias_adplexity": [
+        80,
+        5,
+        78
+      ],
+      "_categorias_nome": [
+        "Liver Health",
+        "Weight Loss",
+        "Gut Health"
+      ],
+      "advs": [
+        "adv01-03",
+        "adv52-02",
+        "adv54-01",
+        "adv75",
+        "adv76",
+        "adv77",
+        "adv78",
+        "adv79",
+        "adv80"
+      ],
+      "sfunnel": [
+        "20608",
+        "20706",
+        "20741",
+        "20750"
+      ],
+      "campanhas_ativas": 6
+    },
+    {
+      "tag": "map",
+      "nome": "Natura Map New",
+      "operacao": "dn",
+      "mercado": [
+        "BR"
+      ],
+      "idioma": "pt",
+      "nicho": "testosterona / excesso de estrogenio",
+      "nichos_adjacentes": [
+        "libido",
+        "disfuncao eretil",
+        "barriga masculina",
+        "energia",
+        "papada",
+        "prostata"
+      ],
+      "publico": "homens 40-80, cansados, com barriga e libido baixa",
+      "especialista": "Dr. Fausto Almeida",
+      "mecanismo": "neutralizar o 'ladrao de testosterona' que converte testosterona em estrogenio — ritual detox de estrogenio a noite",
+      "promessa": "reestruturar a virilidade em dias, sem reposicao nem injecao",
+      "provas_da_vsl": [
+        "pesquisa de Harvard",
+        "estudo do Boston Medical Center de 2010 encerrado por ataques cardiacos",
+        "Oscar Magrini, 64 anos, dobrou a testosterona"
+      ],
+      "vsl": "vsls/vsl-map.txt",
+      "termos_pt": [
+        "testosterona baixa",
+        "estrogenio alto",
+        "libido masculina",
+        "energia masculina",
+        "barriga de homem"
+      ],
+      "termos_en": [
+        "low testosterone",
+        "estrogen",
+        "male hormones",
+        "libido",
+        "testosterone booster",
+        "man boobs"
+      ],
+      "categorias_adplexity": [
+        86,
+        7,
+        85
+      ],
+      "_categorias_nome": [
+        "Male Health: Testosterone",
+        "ED (Erectile Dysfunction)",
+        "Prostate Health"
+      ],
+      "advs": [
+        "adv42"
+      ],
+      "sfunnel": [
+        "20754"
+      ],
+      "campanhas_ativas": 1
+    },
+    {
+      "tag": "cells",
+      "nome": "CellSense (Serum + Caps)",
+      "operacao": "blivo",
+      "mercado": [
+        "BR"
+      ],
+      "idioma": "pt",
+      "advs": [
+        "adv46"
+      ],
+      "sfunnel": [
+        "2196",
+        "5970"
+      ],
+      "campanhas_ativas": 2,
+      "_confianca": "INFERIDO dos nomes de oferta do Smart Funnel — sem VSL. CONFIRMAR com o usuario.",
+      "nicho": "pele / antirrugas",
+      "nichos_adjacentes": [
+        "anti-aging",
+        "flacidez",
+        "olheiras",
+        "colageno",
+        "manchas"
+      ],
+      "publico": "mulheres 40+ (a confirmar)",
+      "linha_irma": [
+        "Hidra Foam",
+        "Peptifen Collagen",
+        "Vitren Serum",
+        "Vital 4K"
+      ],
+      "termos_pt": [
+        "rugas",
+        "flacidez",
+        "colageno",
+        "pele madura",
+        "olheiras",
+        "firmeza da pele"
+      ],
+      "termos_en": [
+        "wrinkles",
+        "saggy skin",
+        "skin tightening",
+        "collagen",
+        "anti aging",
+        "eye bags",
+        "crepey skin"
+      ],
+      "categorias_adplexity": [
+        71,
+        72,
+        8
+      ],
+      "_categorias_nome": [
+        "Beauty: Skin Care",
+        "Beauty: Anti Aging",
+        "Skin Care"
+      ]
+    },
+    {
+      "tag": "bb",
+      "nome": "Bone Broth (Caldo de Ossos)",
+      "operacao": "blivo",
+      "mercado": [
+        "BR"
+      ],
+      "idioma": "pt",
+      "advs": [],
+      "sfunnel": [
+        "233"
+      ],
+      "campanhas_ativas": 1,
+      "_confianca": "INFERIDO dos nomes de oferta — sem VSL. CONFIRMAR com o usuario.",
+      "nicho": "caldo de ossos / dieta",
+      "nichos_adjacentes": [
+        "emagrecimento",
+        "intestino",
+        "articulacoes",
+        "colageno",
+        "pele"
+      ],
+      "publico": "mulheres 40+ em dieta (a confirmar)",
+      "produtos_satelite": [
+        "Livro A Revolucionaria Dieta do Caldo de Ossos",
+        "Curso Online",
+        "Desafio 21 Dias"
+      ],
+      "termos_pt": [
+        "caldo de ossos",
+        "dieta",
+        "emagrecer",
+        "intestino",
+        "colageno",
+        "barriga"
+      ],
+      "termos_en": [
+        "bone broth",
+        "belly fat",
+        "gut health",
+        "collagen",
+        "weight loss",
+        "metabolism"
+      ],
+      "categorias_adplexity": [
+        5,
+        78,
+        56
+      ],
+      "_categorias_nome": [
+        "Weight Loss",
+        "Gut Health",
+        "Other Supplements"
+      ]
+    }
+  ]
+}

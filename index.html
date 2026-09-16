@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Acervo de Stalk</title>
+<style>
+:root{
+  --bg:#f6f6f4; --card:#fff; --linha:#e3e2de; --tinta:#1a1a18; --fraco:#6b6a65;
+  --acento:#2f6f4e; --aprova:#2f6f4e; --recusa:#9a3b32; --standby:#8a6d1f;
+  --tagbg:#efeeea;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#16161a; --card:#1e1e23; --linha:#32323a; --tinta:#eceaf0; --fraco:#9a98a3;
+        --acento:#5fb98a; --aprova:#5fb98a; --recusa:#e08a80; --standby:#d4b45c; --tagbg:#2a2a31;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tinta);
+  font:14px/1.45 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--linha);
+  padding:12px 16px 8px}
+h1{margin:0;font-size:17px;letter-spacing:-.01em;display:inline}
+.meta{color:var(--fraco);font-size:12px;margin-left:10px}
+.barrafiltros{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center}
+.grupo{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.grupo>b{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--fraco);
+  margin-right:2px;align-self:center}
+.chip{border:1px solid var(--linha);background:var(--card);color:var(--tinta);border-radius:999px;
+  padding:3px 9px;font-size:12px;cursor:pointer;white-space:nowrap}
+.chip:hover{border-color:var(--fraco)}
+.chip[aria-pressed=true]{background:var(--tinta);color:var(--bg);border-color:var(--tinta)}
+.chip i{font-style:normal;opacity:.55;margin-left:4px;font-size:11px}
+input[type=search],select{border:1px solid var(--linha);background:var(--card);color:var(--tinta);
+  border-radius:8px;padding:5px 9px;font:inherit;font-size:12px}
+input[type=search]{min-width:170px;flex:1}
+
+main{display:grid;gap:12px;padding:16px;
+  grid-template-columns:repeat(auto-fill,minmax(310px,1fr));padding-bottom:110px}
+.card{background:var(--card);border:1px solid var(--linha);border-radius:12px;overflow:hidden;
+  display:flex;flex-direction:column}
+.card.decidida{opacity:.5}
+.thumb{aspect-ratio:16/9;background:var(--tagbg);overflow:hidden;position:relative}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.corpo{padding:10px 12px 12px;display:flex;flex-direction:column;gap:7px;flex:1}
+.topo{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.oid{font:600 13px ui-monospace,SFMono-Regular,Menlo,monospace;cursor:pointer;
+  border-bottom:1px dashed var(--fraco)}
+.nums{font-size:11px;color:var(--fraco);font-variant-numeric:tabular-nums}
+.nums b{color:var(--tinta);font-weight:600}
+.tags{display:flex;gap:4px;flex-wrap:wrap}
+.tag{background:var(--tagbg);border-radius:5px;padding:1px 6px;font-size:11px;color:var(--fraco)}
+.tag.tr{background:var(--acento);color:#fff;font-weight:600}
+.tag.pr{border:1px solid var(--acento);color:var(--acento)}
+h3{margin:0;font-size:13px;font-weight:500;line-height:1.35}
+.lnk{font-size:11px;color:var(--fraco);display:flex;gap:6px;align-items:center;
+  overflow:hidden;white-space:nowrap}
+.lnk a{color:var(--fraco);text-overflow:ellipsis;overflow:hidden}
+.cp{border:0;background:var(--tagbg);color:var(--fraco);border-radius:4px;padding:1px 5px;
+  font-size:10px;cursor:pointer;flex-shrink:0}
+.acoes{display:flex;gap:6px;margin-top:auto;padding-top:4px}
+.acoes button{flex:1;border:1px solid var(--linha);background:transparent;border-radius:7px;
+  padding:6px 4px;font:inherit;font-size:12px;cursor:pointer;color:var(--fraco)}
+.acoes button:hover{border-color:currentColor}
+.b-ap:hover,.b-ap.on{color:var(--aprova);border-color:var(--aprova)}
+.b-sb:hover,.b-sb.on{color:var(--standby);border-color:var(--standby)}
+.b-re:hover,.b-re.on{color:var(--recusa);border-color:var(--recusa)}
+.form{display:none;gap:5px;flex-wrap:wrap;padding-top:6px;border-top:1px dashed var(--linha)}
+.form.aberto{display:flex}
+.form input{flex:1;min-width:120px;border:1px solid var(--linha);background:var(--bg);
+  color:var(--tinta);border-radius:6px;padding:4px 8px;font:inherit;font-size:12px}
+.mini{border:1px solid var(--linha);background:var(--bg);color:var(--fraco);border-radius:999px;
+  padding:2px 8px;font-size:11px;cursor:pointer}
+.mini:hover{color:var(--tinta);border-color:var(--fraco)}
+.estado{font-size:11px;font-weight:600}
+.estado.aprovado{color:var(--aprova)} .estado.recusado{color:var(--recusa)}
+.estado.standby{color:var(--standby)}
+
+footer{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);
+  border-top:1px solid var(--linha);padding:10px 16px;display:none}
+footer.tem{display:block}
+.fila{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fila textarea{flex:1;min-width:200px;height:52px;border:1px solid var(--linha);border-radius:8px;
+  background:var(--bg);color:var(--tinta);padding:6px 9px;
+  font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;resize:none}
+.fila button{border:1px solid var(--tinta);background:var(--tinta);color:var(--bg);border-radius:8px;
+  padding:8px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.fila .limpar{background:transparent;color:var(--fraco);border-color:var(--linha);font-weight:400}
+.vazio{padding:40px 16px;text-align:center;color:var(--fraco);grid-column:1/-1}
+@media(max-width:520px){main{padding:12px;gap:10px;grid-template-columns:1fr}header{padding:10px 12px 8px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Acervo de Stalk</h1><span class="meta" id="meta">carregando…</span>
+  <div class="barrafiltros" id="filtros"></div>
+</header>
+
+<main id="grade"><div class="vazio">carregando…</div></main>
+
+<footer id="barra">
+  <div class="fila">
+    <textarea id="linha" readonly></textarea>
+    <button id="copiar">Copiar para o Claude</button>
+    <button class="limpar" id="limpar">Limpar</button>
+  </div>
+</footer>
+
+<script>
+/* ============================================================================
+ * Painel do acervo de stalk — uma VIEW de acervo.json, nada mais.
+ *
+ * Ele NAO e a fonte da verdade e nao guarda estado de verdade: as decisoes
+ * vivem em decisoes.jsonl no repo. O localStorage aqui so segura os cliques
+ * ainda nao enviados, para voce nao perder o trabalho ao fechar a aba.
+ *
+ * O botao nao escreve em servidor nenhum de proposito: pagina estatica nao
+ * pode guardar credencial sem expor. Entao ela monta uma linha, voce cola no
+ * Claude, e o Claude escreve. Zero infra para manter.
+ * ==========================================================================*/
+const PEND = 'stalk_pendentes_v1';
+let ACERVO = null, PRODUTOS = [], pend = {};
+try { pend = JSON.parse(localStorage.getItem(PEND) || '{}'); } catch (e) { pend = {}; }
+
+/* motivos pre-codificados: um clique na maioria dos casos, e — mais importante —
+   motivo repetido vira criterio automatico depois. Texto livre continua valendo
+   para o que ainda nao tem codigo. */
+const MOTIVOS = ['pagina de venda', 'arbitragem de clique', 'nicho sem produto nosso',
+  'ja modelamos parecido', 'criativo fraco', 'landing nao abre', 'pouca distribuicao'];
+
+const filtros = { trilha: '', produto: '', nicho: '', transicao: '', formato: '', estado: '', fonte: '', q: '' };
+let ordem = 'dias';
+
+const salvar = () => { try { localStorage.setItem(PEND, JSON.stringify(pend)); } catch (e) {} desenharBarra(); };
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+async function carregar() {
+  const [a, p] = await Promise.all([
+    fetch('acervo.json').then(r => r.json()),
+    fetch('produtos.json').then(r => r.json()).catch(() => ({ produtos: [] }))
+  ]);
+  ACERVO = a; PRODUTOS = (p.produtos || []).filter(x => x.nicho);
+  const L = Object.values(a.ofertas);
+  document.getElementById('meta').textContent =
+    L.length + ' ofertas · ' + a.coletas.length + ' coletas · atualizado ' + a.atualizado;
+  montarFiltros(L); desenhar();
+}
+
+/* ---------- filtros com contagem ---------- */
+function conta(L, campo, val) {
+  return L.filter(o => valor(o, campo) === val).length;
+}
+function valor(o, campo) {
+  if (campo === 'trilha') return o.trilha || '';
+  if (campo === 'produto') return o.produto_alvo || '';
+  if (campo === 'nicho') return o.nicho || '';
+  if (campo === 'transicao') return o.transicao ? 'sim' : (o.formato_destino ? 'nao' : '');
+  if (campo === 'formato') return o.formato_destino || '';
+  if (campo === 'estado') return o.estado || 'novo';
+  if (campo === 'fonte') return (o.fontes || []).join('+');
+  return '';
+}
+function montarFiltros(L) {
+  const box = document.getElementById('filtros');
+  const defs = [
+    ['trilha', 'trilha', ['A', 'B']],
+    ['produto', 'produto', PRODUTOS.map(p => p.tag)],
+    ['transicao', 'transição', ['sim', 'nao']],
+    ['estado', 'estado', ['novo', 'aprovado', 'recusado', 'standby']],
+    ['fonte', 'fonte', [...new Set(L.map(o => valor(o, 'fonte')))].filter(Boolean).sort()]
+  ];
+  let html = '';
+  for (const [campo, rotulo, vals] of defs) {
+    const itens = vals.map(v => {
+      const n = conta(L, campo, v);
+      return n ? `<button class="chip" data-f="${campo}" data-v="${esc(v)}" aria-pressed="false">${esc(v)}<i>${n}</i></button>` : '';
+    }).join('');
+    if (itens) html += `<span class="grupo"><b>${rotulo}</b>${itens}</span>`;
+  }
+  /* nicho tem cauda longa: vira select, nao chip */
+  const nichos = [...new Set(L.map(o => o.nicho).filter(Boolean))].sort();
+  html += `<select id="fnicho"><option value="">todos os nichos</option>` +
+    nichos.map(n => `<option value="${esc(n)}">${esc(n)} (${conta(L, 'nicho', n)})</option>`).join('') + `</select>`;
+  html += `<select id="fordem"><option value="dias">mais dias no ar</option>
+    <option value="portais">mais portais</option><option value="paises">mais países</option>
+    <option value="id">ID</option></select>`;
+  html += `<input type="search" id="fq" placeholder="buscar headline, domínio, ID…">`;
+  box.innerHTML = html;
+
+  box.querySelectorAll('.chip').forEach(b => b.onclick = () => {
+    const f = b.dataset.f, v = b.dataset.v;
+    filtros[f] = filtros[f] === v ? '' : v;
+    box.querySelectorAll(`.chip[data-f="${f}"]`).forEach(x =>
+      x.setAttribute('aria-pressed', String(x.dataset.v === filtros[f])));
+    desenhar();
+  });
+  document.getElementById('fnicho').onchange = e => { filtros.nicho = e.target.value; desenhar(); };
+  document.getElementById('fordem').onchange = e => { ordem = e.target.value; desenhar(); };
+  document.getElementById('fq').oninput = e => { filtros.q = e.target.value.toLowerCase(); desenhar(); };
+}
+
+/* ---------- grade ---------- */
+function filtrar() {
+  let L = Object.values(ACERVO.ofertas);
+  for (const k of ['trilha', 'produto', 'nicho', 'transicao', 'formato', 'estado', 'fonte'])
+    if (filtros[k]) L = L.filter(o => valor(o, k) === filtros[k]);
+  if (filtros.q) {
+    const q = filtros.q;
+    L = L.filter(o => (o.id + ' ' + o.landing + ' ' + o.nicho + ' ' +
+      (o.criativos || []).map(c => c.headline).join(' ')).toLowerCase().includes(q));
+  }
+  const ch = { dias: 'dias_no_ar', portais: 'portais', paises: 'paises' }[ordem];
+  return ch ? L.sort((a, b) => (b[ch] || 0) - (a[ch] || 0)) : L.sort((a, b) => a.id.localeCompare(b.id));
+}
+
+function cartao(o) {
+  const c = (o.criativos || [])[0] || {};
+  const p = pend[o.id];
+  const nums = [o.dias_no_ar ? `<b>${o.dias_no_ar}d</b> no ar` : '',
+    o.portais ? `<b>${o.portais}</b> portais` : '',
+    o.paises ? `<b>${o.paises}</b> países` : ''].filter(Boolean).join(' · ');
+  const tags = [
+    o.transicao ? '<span class="tag tr">transição</span>' : '',
+    o.nicho ? `<span class="tag">${esc(o.nicho)}</span>` : '',
+    o.produto_alvo ? `<span class="tag pr">${esc(o.produto_alvo)}${o.match_por === 'nicho' ? '' : '?'}</span>` : '',
+    !o.formato_destino ? '<span class="tag">landing não aberta</span>' : ''
+  ].join('');
+  const jaDecidida = o.estado && o.estado !== 'novo';
+  return `<article class="card${jaDecidida ? ' decidida' : ''}" data-id="${o.id}">
+    ${c.imagem ? `<div class="thumb"><img loading="lazy" src="${esc(c.imagem)}" alt=""
+       onerror="this.closest('.thumb').style.display='none'"></div>` : ''}
+    <div class="corpo">
+      <div class="topo"><span class="oid" data-cp="${o.id}" title="clique para copiar">${o.id}</span>
+        <span class="nums">${nums}</span></div>
+      <div class="tags">${tags}</div>
+      <h3>${esc(c.headline || '(sem headline)')}</h3>
+      <div class="lnk"><a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer">${esc(o.landing)}</a>
+        <button class="cp" data-cp="${esc(o.url)}">copiar</button></div>
+      ${jaDecidida ? `<div class="estado ${o.estado}">${o.estado}${(o.decisoes[0] || {}).motivo ? ' — ' + esc(o.decisoes[0].motivo) : ''}</div>` : ''}
+      <div class="acoes">
+        <button class="b-ap${p && p.estado === 'aprovado' ? ' on' : ''}" data-ac="aprovado">aprovar</button>
+        <button class="b-sb${p && p.estado === 'standby' ? ' on' : ''}" data-ac="standby">standby</button>
+        <button class="b-re${p && p.estado === 'recusado' ? ' on' : ''}" data-ac="recusado">recusar</button>
+      </div>
+      <div class="form" data-form></div>
+    </div></article>`;
+}
+
+function desenhar() {
+  const L = filtrar();
+  document.getElementById('grade').innerHTML =
+    L.length ? L.map(cartao).join('') : '<div class="vazio">nenhuma oferta com esses filtros</div>';
+  desenharBarra();
+}
+
+/* ---------- decisao ---------- */
+/* aprovar pede PRODUTO (a marca e por oferta x produto: a mesma landing pode
+   virar adv pro cells E pro liver); recusar e standby pedem MOTIVO, sempre —
+   e o motivo, nao a decisao, que ensina o criterio para a fila automatica */
+function abrirForm(card, acao) {
+  const box = card.querySelector('[data-form]');
+  const id = card.dataset.id;
+  if (acao === 'aprovado') {
+    box.innerHTML = '<b style="font-size:11px;color:var(--fraco);align-self:center">para qual produto?</b>' +
+      PRODUTOS.map(p => `<button class="mini" data-prod="${esc(p.tag)}">${esc(p.tag)}</button>`).join('');
+    box.querySelectorAll('[data-prod]').forEach(b => b.onclick = () => {
+      pend[id] = { estado: 'aprovado', produto: b.dataset.prod }; salvar(); desenhar();
+    });
+  } else {
+    box.innerHTML = '<b style="font-size:11px;color:var(--fraco);align-self:center">por quê?</b>' +
+      MOTIVOS.map(m => `<button class="mini" data-mot="${esc(m)}">${esc(m)}</button>`).join('') +
+      `<input placeholder="outro motivo… (Enter)" data-livre>`;
+    const reg = m => { if (!m) return; pend[id] = { estado: acao, motivo: m }; salvar(); desenhar(); };
+    box.querySelectorAll('[data-mot]').forEach(b => b.onclick = () => reg(b.dataset.mot));
+    const inp = box.querySelector('[data-livre]');
+    inp.onkeydown = e => { if (e.key === 'Enter') reg(inp.value.trim()); };
+    setTimeout(() => inp.focus(), 30);
+  }
+  box.classList.add('aberto');
+}
+
+document.addEventListener('click', e => {
+  const cp = e.target.closest('[data-cp]');
+  if (cp) {
+    const t = cp.dataset.cp;
+    const ok = () => { const o = cp.textContent; cp.textContent = 'copiado'; setTimeout(() => cp.textContent = o, 900); };
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(ok, ok);
+    else { const a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); document.execCommand('copy'); a.remove(); ok(); }
+    return;
+  }
+  const ac = e.target.closest('[data-ac]');
+  if (ac) {
+    const card = ac.closest('.card'), id = card.dataset.id;
+    if (pend[id] && pend[id].estado === ac.dataset.ac) { delete pend[id]; salvar(); desenhar(); }
+    else abrirForm(card, ac.dataset.ac);
+  }
+});
+
+/* ---------- a linha ---------- */
+/* formato deliberadamente simples: + aprova, ~ standby, - recusa. Legivel para
+   voce, trivial de parsear para o Claude, e nao quebra se voce editar a mao. */
+function montarLinha() {
+  const ids = Object.keys(pend);
+  if (!ids.length) return '';
+  const sig = { aprovado: '+', standby: '~', recusado: '-' };
+  return '@stalk\n' + ids.map(id => {
+    const d = pend[id];
+    return sig[d.estado] + ' ' + id + ' ' + (d.produto || d.motivo || '');
+  }).join('\n');
+}
+function desenharBarra() {
+  const txt = montarLinha();
+  document.getElementById('linha').value = txt;
+  document.getElementById('barra').classList.toggle('tem', !!txt);
+  document.getElementById('copiar').textContent =
+    'Copiar ' + Object.keys(pend).length + ' para o Claude';
+}
+document.getElementById('copiar').onclick = () => {
+  const t = document.getElementById('linha');
+  t.select(); navigator.clipboard ? navigator.clipboard.writeText(t.value) : document.execCommand('copy');
+  const b = document.getElementById('copiar'); const o = b.textContent;
+  b.textContent = 'copiado ✓'; setTimeout(() => b.textContent = o, 1200);
+};
+document.getElementById('limpar').onclick = () => { pend = {}; salvar(); desenhar(); };
+
+carregar().catch(e => {
+  document.getElementById('grade').innerHTML =
+    '<div class="vazio">não consegui carregar o acervo.json<br><small>' + esc(e.message) + '</small></div>';
+});
+</script>
+</body>
+</html>
