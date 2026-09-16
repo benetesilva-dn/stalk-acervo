@@ -84,6 +84,37 @@ h3{margin:0;font-size:13px;font-weight:500;line-height:1.35}
 .estado.standby{color:var(--standby)}
 .vazio{padding:40px 16px;text-align:center;color:var(--fraco);grid-column:1/-1}
 
+/* ---------- abas ---------- */
+.abas{display:flex;gap:4px;margin-bottom:14px}
+.aba{flex:1;border:1px solid var(--linha);background:var(--card);color:var(--fraco);border-radius:8px;
+  padding:6px 4px;font:inherit;font-size:12px;cursor:pointer}
+.aba[aria-selected=true]{background:var(--tinta);color:var(--bg);border-color:var(--tinta);font-weight:600}
+
+/* ---------- tier ---------- */
+.tier{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;
+  border-radius:5px;font:700 11px ui-monospace,SFMono-Regular,Menlo,monospace;padding:0 4px}
+.t-S{background:#1f5c41;color:#fff} .t-A{background:var(--acento);color:#fff}
+.t-B{background:#c6a63c;color:#1a1a18} .t-C{background:var(--tagbg);color:var(--fraco)}
+.t-D{background:var(--tagbg);color:var(--fraco);opacity:.7}
+.t-\?{background:none;border:1px dashed var(--linha);color:var(--fraco)}
+
+/* ---------- tabela de destinos ---------- */
+.tabela{width:100%;border-collapse:collapse;font-size:12.5px}
+.tabela th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--fraco);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--linha);
+  position:sticky;top:0;background:var(--bg);cursor:pointer;white-space:nowrap}
+.tabela th:hover{color:var(--tinta)}
+.tabela td{padding:7px 8px;border-bottom:1px solid var(--linha);vertical-align:top}
+.tabela tbody tr:hover{background:var(--card)}
+.tabela .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tabela .dom{font-weight:500;word-break:break-all}
+.tabela .sub{color:var(--fraco);font-size:11px}
+.lps{display:flex;gap:3px;flex-wrap:wrap;margin-top:3px}
+.lps button{border:1px solid var(--linha);background:var(--card);color:var(--fraco);border-radius:4px;
+  padding:0 5px;font:600 10px ui-monospace,Menlo,monospace;cursor:pointer}
+.lps button:hover{color:var(--tinta);border-color:var(--fraco)}
+.rolagem{overflow-x:auto}
+
 footer{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);
   border-top:1px solid var(--linha);padding:10px 16px;display:none}
 footer.tem{display:block}
@@ -117,9 +148,16 @@ footer.tem{display:block}
   <aside id="lado">
     <h1>Acervo de Stalk</h1>
     <span class="meta" id="meta">carregando…</span>
+    <div class="abas" role="tablist">
+      <button class="aba" id="ab-ofertas" role="tab" aria-selected="true">Ofertas</button>
+      <button class="aba" id="ab-destinos" role="tab" aria-selected="false">Destinos</button>
+    </div>
     <div id="filtros"></div>
   </aside>
-  <main><div class="grade" id="grade"><div class="vazio">carregando…</div></div></main>
+  <main>
+    <div class="grade" id="grade"><div class="vazio">carregando…</div></div>
+    <div class="rolagem" id="destinos" hidden></div>
+  </main>
 </div>
 
 <footer id="barra">
@@ -151,8 +189,8 @@ try { pend = JSON.parse(localStorage.getItem(PEND) || '{}'); } catch (e) { pend 
 const MOTIVOS = ['pagina de venda', 'arbitragem de clique', 'nicho sem produto nosso',
   'ja modelamos parecido', 'criativo fraco', 'landing nao abre', 'pouca distribuicao'];
 
-const filtros = { trilha: '', produto: '', nicho: '', transicao: '', estado: '', fonte: '', q: '' };
-let ordem = 'dias';
+const filtros = { tier: '', trilha: '', produto: '', nicho: '', transicao: '', formato: '', estado: '', fonte: '', q: '' };
+let ordem = 'dias', vista = 'ofertas', ordemDest = 'dias_no_ar', invDest = true;
 
 const salvar = () => { try { localStorage.setItem(PEND, JSON.stringify(pend)); } catch (e) {} desenharBarra(); };
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -174,9 +212,13 @@ async function carregar() {
    com mais de um produto (emagrecimento serve bb E liver), e esconder a segunda
    opcao atras da ordenacao seria eu decidindo por voce */
 function valor(o, campo) {
+  if (campo === 'tier') return o.tier || '?';
   if (campo === 'trilha') return o.trilha || '';
   if (campo === 'nicho') return o.nicho || '';
+  /* '' quando a landing nunca foi aberta: ausencia de classificacao nao e "nao
+     e transicao". Esses ficam de FORA dos dois lados do filtro, de proposito. */
   if (campo === 'transicao') return o.transicao ? 'sim' : (o.formato_destino ? 'nao' : '');
+  if (campo === 'formato') return o.formato_destino || '';
   if (campo === 'estado') return o.estado || 'novo';
   if (campo === 'fonte') return (o.fontes || []).join('+');
   return '';
@@ -187,8 +229,10 @@ const bate = (o, campo, v) => campo === 'produto'
 
 function montarFiltros(L) {
   const defs = [
+    ['tier', 'força', ['S', 'A', 'B', 'C', 'D', '?']],
+    ['transicao', 'é transição?', ['sim', 'nao']],
+    ['formato', 'formato do destino', [...new Set(L.map(o => o.formato_destino).filter(Boolean))].sort()],
     ['trilha', 'trilha', ['A', 'B']],
-    ['transicao', 'transição', ['sim', 'nao']],
     ['produto', 'produto', PRODUTOS.map(p => p.tag)],
     ['estado', 'estado', ['novo', 'aprovado', 'recusado', 'standby']],
     ['fonte', 'fonte', [...new Set(L.map(o => valor(o, 'fonte')))].filter(Boolean).sort()]
@@ -234,7 +278,7 @@ function montarFiltros(L) {
 /* ---------- grade ---------- */
 function filtrar() {
   let L = Object.values(ACERVO.ofertas);
-  for (const k of ['trilha', 'produto', 'nicho', 'transicao', 'estado', 'fonte'])
+  for (const k of ['tier', 'trilha', 'produto', 'nicho', 'transicao', 'formato', 'estado', 'fonte'])
     if (filtros[k]) L = L.filter(o => bate(o, k, filtros[k]));
   if (filtros.q) {
     const q = filtros.q;
@@ -266,7 +310,8 @@ function cartao(o) {
     ${c.imagem ? `<div class="thumb"><img loading="lazy" src="${esc(c.imagem)}" alt=""
        onerror="this.closest('.thumb').style.display='none'"></div>` : ''}
     <div class="corpo">
-      <div class="topo"><span class="oid" data-cp="${o.id}" title="clique para copiar">${o.id}</span>
+      <div class="topo"><span class="tier t-${o.tier}" title="${o.tier === '?' ? 'sem medição de longevidade' : o.sinais + ' de 4 sinais'}">${o.tier}</span>
+        <span class="oid" data-cp="${o.id}" title="clique para copiar">${o.id}</span>
         <span class="nums">${nums}</span></div>
       <div class="tags">${tags}</div>
       <h3>${esc(c.headline || '(sem headline)')}</h3>
@@ -283,11 +328,77 @@ function cartao(o) {
 }
 
 function desenhar() {
-  const L = filtrar();
-  document.getElementById('grade').innerHTML =
-    L.length ? L.map(cartao).join('') : '<div class="vazio">nenhuma oferta com esses filtros</div>';
+  const gr = document.getElementById('grade'), ds = document.getElementById('destinos');
+  gr.hidden = vista !== 'ofertas'; ds.hidden = vista !== 'destinos';
+  if (vista === 'ofertas') {
+    const L = filtrar();
+    gr.innerHTML = L.length ? L.map(cartao).join('') : '<div class="vazio">nenhuma oferta com esses filtros</div>';
+  } else desenharDestinos();
   desenharBarra();
 }
+
+/* ---------- visao por DESTINO = o operador ----------
+ * A landing e o que se modela; o dominio e quem esta por tras. Tabela, nao
+ * cartao, porque aqui o trabalho e COMPARAR numeros entre operadores — e grade
+ * de imagem esconde justamente a comparacao.
+ *
+ * Os quatro sinais ficam em colunas proprias ao lado do tier, sempre. O tier e
+ * so a contagem deles; quem decide e voce, olhando de qual eixo veio a forca.
+ */
+function desenharDestinos() {
+  const D = Object.values(ACERVO.destinos || {}).filter(e => {
+    if (filtros.tier && e.tier !== filtros.tier) return false;
+    if (filtros.produto && !(e.produtos || []).includes(filtros.produto)) return false;
+    if (filtros.nicho && !(e.nichos || []).includes(filtros.nicho)) return false;
+    if (filtros.transicao === 'sim' && !e.transicoes) return false;
+    if (filtros.transicao === 'nao' && e.transicoes) return false;
+    if (filtros.q && !(e.dominio + ' ' + e.nichos.join(' ')).toLowerCase().includes(filtros.q)) return false;
+    return true;
+  }).sort((a, b) => {
+    const d = (b[ordemDest] || 0) - (a[ordemDest] || 0);
+    return invDest ? d : -d;
+  });
+
+  const cols = [['tier', 'força'], ['dias_no_ar', 'dias'], ['portais', 'portais'],
+    ['paises', 'países'], ['landings', 'landings'], ['criativos', 'criativos'], ['transicoes', 'transição']];
+  document.getElementById('destinos').innerHTML = !D.length
+    ? '<div class="vazio">nenhum destino com esses filtros</div>'
+    : `<table class="tabela"><thead><tr><th data-ord="tier">força</th><th>destino</th>` +
+      cols.slice(1).map(([k, r]) => `<th class="n" data-ord="${k}">${r}</th>`).join('') +
+      `</tr></thead><tbody>` + D.map(e => `<tr>
+        <td><span class="tier t-${e.tier}" title="${e.tier === '?' ? 'sem medição' : e.sinais + ' de 4 sinais'}">${e.tier}</span></td>
+        <td><div class="dom">${esc(e.dominio)}</div>
+          <div class="sub">${esc(e.nichos.slice(0, 4).join(' · ')) || '—'}${e.produtos.length ? ' → <b>' + esc(e.produtos.join(',')) + '</b>' : ''}</div>
+          <div class="lps">${e.ids.slice(0, 14).map(id => `<button data-ir="${id}">${id.replace('OF-', '')}</button>`).join('')}${e.ids.length > 14 ? '<span class="sub">+' + (e.ids.length - 14) + '</span>' : ''}</div></td>
+        <td class="n">${e.dias_no_ar || '—'}</td><td class="n">${e.portais || '—'}</td>
+        <td class="n">${e.paises || '—'}</td><td class="n">${e.landings}</td>
+        <td class="n">${e.criativos}</td><td class="n">${e.transicoes || '—'}</td></tr>`).join('') +
+      `</tbody></table>`;
+
+  document.querySelectorAll('.tabela th[data-ord]').forEach(th => th.onclick = () => {
+    const k = th.dataset.ord;
+    if (ordemDest === k) invDest = !invDest; else { ordemDest = k; invDest = true; }
+    desenharDestinos();
+  });
+  /* clicar num ID leva para aquela oferta na aba Ofertas */
+  document.querySelectorAll('[data-ir]').forEach(b => b.onclick = () => {
+    trocarAba('ofertas');
+    Object.keys(filtros).forEach(k => filtros[k] = '');
+    filtros.q = b.dataset.ir.toLowerCase();
+    document.getElementById('fq').value = b.dataset.ir;
+    document.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', 'false'));
+    desenhar();
+  });
+}
+
+function trocarAba(v) {
+  vista = v;
+  document.getElementById('ab-ofertas').setAttribute('aria-selected', String(v === 'ofertas'));
+  document.getElementById('ab-destinos').setAttribute('aria-selected', String(v === 'destinos'));
+  desenhar();
+}
+document.getElementById('ab-ofertas').onclick = () => trocarAba('ofertas');
+document.getElementById('ab-destinos').onclick = () => trocarAba('destinos');
 
 /* ---------- decisao ---------- */
 /* aprovar pede PRODUTO (a marca e por oferta x produto: a mesma landing pode
