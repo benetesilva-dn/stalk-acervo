@@ -56,6 +56,9 @@ main{flex:1;min-width:0;padding:16px;padding-bottom:120px}
 .tags{display:flex;gap:4px;flex-wrap:wrap}
 .tag{background:var(--tagbg);border-radius:5px;padding:1px 6px;font-size:11px;color:var(--fraco)}
 .tag.tr{background:var(--acento);color:#fff;font-weight:600}
+.tag.sobe{background:#2f6f4e;color:#fff;font-weight:600}
+.tag.desce{border:1px solid var(--recusa);color:var(--recusa);background:none}
+.tag.cfl{border:1px solid var(--standby);color:var(--standby);background:none}
 .tag.pr{border:1px solid var(--acento);color:var(--acento);background:none}
 h3{margin:0;font-size:13px;font-weight:500;line-height:1.35}
 .lnk{font-size:11px;color:var(--fraco);display:flex;gap:6px;align-items:center;
@@ -300,6 +303,18 @@ function filtrar() {
   return ch ? L.sort((a, b) => (b[ch] || 0) - (a[ch] || 0)) : L.sort((a, b) => a.id.localeCompare(b.id));
 }
 
+/* aceleracao = ritmo na janela / ritmo na vida inteira. E o unico numero que
+   olha para a FRENTE — dias, portais e criativos todos medem o passado. Fica
+   fora do tier de proposito: e leitura de momento, nao de forca acumulada.
+   Uma peca pode ser tier S e estar morrendo; e justamente isso que importa ver. */
+function acelTag(o) {
+  if (o.aceleracao == null) return '';
+  const a = o.aceleracao;
+  const cls = a >= 1.2 ? 'sobe' : a <= 0.8 ? 'desce' : '';
+  const txt = a >= 1.2 ? '▲ esquentando' : a <= 0.8 ? '▼ esfriando' : '● estável';
+  return `<span class="tag ${cls}" title="ritmo na janela ÷ ritmo na vida = ${a}">${txt} ${a}×</span>`;
+}
+
 function cartao(o) {
   const c = (o.criativos || [])[0] || {};
   const p = pend[o.id];
@@ -314,6 +329,8 @@ function cartao(o) {
     o.transicao ? '<span class="tag tr">transição</span>' : '',
     o.nicho ? `<span class="tag">${esc(o.nicho)}</span>` : '',
     prods,
+    acelTag(o),
+    o.formato_conflito ? `<span class="tag cfl" title="coletas discordam: ${esc(o.formato_conflito.join(' vs '))}">classificação em conflito</span>` : '',
     !o.formato_destino ? '<span class="tag">landing não aberta</span>' : ''
   ].join('');
   const jaDecidida = o.estado && o.estado !== 'novo';
@@ -413,7 +430,7 @@ function tabelaDestinos() {
       return `<tr data-id="${o.id}">
         <td><span class="tier t-${o.tier}" title="${o.tier === '?' ? 'sem medição de longevidade' : o.sinais + ' de 3 sinais'}">${o.tier}</span></td>
         <td><div class="dom"><a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer">${esc(o.landing)}</a></div>
-          <div class="sub">${o.transicao ? '<span class="tag tr">transição</span> ' : ''}${esc(o.nicho || '—')}${o.produtos_possiveis.length ? ' → <b>' + esc(o.produtos_possiveis.join(',')) + '</b>' : ''}
+          <div class="sub">${o.transicao ? '<span class="tag tr">transição</span> ' : ''}${acelTag(o)}${o.formato_conflito ? '<span class="tag cfl" title="' + esc(o.formato_conflito.join(' vs ')) + '">conflito</span>' : ''} ${esc(o.nicho || '—')}${o.produtos_possiveis.length ? ' → <b>' + esc(o.produtos_possiveis.join(',')) + '</b>' : ''}
             <button data-ir="${o.id}" class="cp">${o.id}</button></div>
           <div class="sub">${esc((c.headline || '').slice(0, 92))}</div></td>
         <td class="n">${o.dias_no_ar || '—'}</td><td class="n">${o.portais || '—'}</td>
