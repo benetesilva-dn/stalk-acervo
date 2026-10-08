@@ -22,3 +22,8 @@
 {"id":"OF-0433","estado":"recusado","produto":"nano","motivo":"limite: 3 paragrafos (72 palavras) antes da imagem de saida, aviso ~80% reprova; passa pela regra, nao vai testar","quando":"2026-10-08"}
 {"id":"OF-0931","estado":"recusado","produto":"nano","motivo":"limite (corrige a anterior): resumo + 3 paragrafos (123 palavras) antes da imagem de saida, aviso ~80% reprova; passa pela regra, nao vai testar","quando":"2026-10-08"}
 {"id":"OF-0898","estado":"recusado","produto":"nano","motivo":"saida de cara: imagem de saida logo abaixo da headline, aviso ~95% reprova","quando":"2026-10-08"}
+{"id":"OF-0341","estado":"aprovado","produto":"nano","motivo":"escolhida para adaptar ao NanoMag (lote de 4 advs de transicao); conversa de adaptacao aberta em 08/10","quando":"2026-10-08"}
+{"id":"OF-0389","estado":"aprovado","produto":"nano","motivo":"escolhida para adaptar ao NanoMag (lote de 4 advs de transicao); conversa de adaptacao aberta em 08/10","quando":"2026-10-08"}
+{"id":"OF-0216","estado":"aprovado","produto":"nano","motivo":"gemea da OF-0389 (mesmo texto): entra junto na adaptacao ao NanoMag, conversa aberta em 08/10","quando":"2026-10-08"}
+{"id":"OF-1009","estado":"aprovado","produto":"nano","motivo":"escolhida para adaptar ao NanoMag (lote de 4 advs de transicao); conversa de adaptacao aberta em 08/10","quando":"2026-10-08"}
+{"id":"OF-1071","estado":"aprovado","produto":"nano","motivo":"escolhida para adaptar ao NanoMag (lote de 4 advs de transicao); conversa de adaptacao aberta em 08/10","quando":"2026-10-08"}
