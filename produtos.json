@@ -1,6 +1,6 @@
 {
   "_leia": "Espinha dorsal das tres frentes. O stalk usa 'termos_en'/'categorias_adplexity' para MIRAR a coleta, 'nicho'/'nichos_adjacentes' para dizer a qual produto uma oferta stalkeada compete, e 'advs'/'sfunnel' para ligar o adv produzido a campanha que o carrega e ao ROI dela. Editado a mao. Regenerar advs/sfunnel com: node ferramentas/sincronizar-produtos.mjs",
-  "_atualizado": "2026-09-15",
+  "_atualizado": "2026-10-08",
   "_trilhas": {
     "_nota": "O stalk alimenta DUAS filas com criterios OPOSTOS. Nao misturar: a mesma planilha ordenada pelo criterio errado esconde a outra.",
     "A_mira": {
@@ -413,6 +413,66 @@
         "Other Supplements"
       ],
       "_nota_emagrecimento": "liver e bb dividem emagrecimento por decisao do usuario (2026-09-16): os dois sao produtos de emagrecimento, entao tudo que serve a um deve aparecer para o outro. Por isso emagrecimento e nicho PRINCIPAL nos dois, e nao principal num e adjacente no outro — senao um sequestraria o outro."
+    },
+    {
+      "tag": "nano",
+      "nome": "NANOMAG",
+      "operacao": "dn",
+      "mercado": [
+        "BR"
+      ],
+      "idioma": "pt",
+      "nicho": "neuropatia",
+      "nichos_adjacentes": [
+        "ciatico",
+        "nervo ciatico",
+        "polineuropatia",
+        "neuropatia diabetica",
+        "dor no nervo",
+        "formigamento",
+        "queimacao nos pes",
+        "pes dormentes"
+      ],
+      "publico": "homens e mulheres 50-80, dor/queimacao/formigamento nos pes e maos, ciatico; diabeticos",
+      "especialista": "Dr. Fausto Almeida",
+      "mecanismo": "falta de magnesio no nervo; creme de cloreto de nano magnesio (+ MSM, piridoxina, capsicum) que atravessa a pele e chega ao nervo — comprimido, soro e pomada comum nao chegam",
+      "promessa": "alivio em minutos; nervo reconstruido com uso continuo (6 meses); dormir a noite inteira",
+      "provas_da_vsl": [
+        "Universidade Jiao Tong: 978 pessoas, deficiencia de um unico nutriente",
+        "Mayo Clinic e Johns Hopkins: nervo regenera ~2,5 cm por mes",
+        "Universidade de Sydney 2023: magnesio na pele, -70% de dor no nervo",
+        "70% dos brasileiros com deficiencia de magnesio (INA)"
+      ],
+      "vsl": "vsls/vsl-nanomag.txt",
+      "termos_pt": [
+        "neuropatia",
+        "dor no nervo",
+        "queimacao nos pes",
+        "formigamento",
+        "pes dormentes",
+        "ciatico",
+        "nervo ciatico",
+        "neuropatia diabetica",
+        "magnesio"
+      ],
+      "termos_en": [
+        "neuropathy",
+        "nerve pain",
+        "burning feet",
+        "numb feet",
+        "tingling",
+        "sciatica",
+        "sciatic nerve",
+        "nerve damage",
+        "polyneuropathy",
+        "pins and needles"
+      ],
+      "categorias_adplexity": [],
+      "_categorias_nome": [],
+      "_nota_busca": "nao confiar na categoria do AdPlexity: buscar por palavra-chave (ordem dele, 08/10/2026). Stalk de referencia: notas/2026-10-08_nanomag-stalk/",
+      "advs": [],
+      "sfunnel": [],
+      "campanhas_ativas": 0
     }
   ]
 }
