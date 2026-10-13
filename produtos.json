@@ -473,6 +473,74 @@
       "advs": [],
       "sfunnel": [],
       "campanhas_ativas": 0
+    },
+    {
+      "tag": "bbpet",
+      "nome": "BBPET (Bone Broth pet, Nutri My Pet)",
+      "operacao": "dn",
+      "mercado": [
+        "BR"
+      ],
+      "idioma": "pt",
+      "nicho": "saude do cao",
+      "nichos_adjacentes": [
+        "racao",
+        "intestino do cao",
+        "coceira do cao",
+        "patas do cao",
+        "articulacao do cao",
+        "bafo do cao",
+        "cao idoso",
+        "longevidade do cao"
+      ],
+      "publico": "tutor de cachorro (homem ou mulher), cao de qualquer idade; so cachorro, nao gato",
+      "especialista": "Dr. Douglas Bonavito (veterinario e cirurgiao; nas paginas, o veterinario dos famosos)",
+      "mecanismo": "a racao cozida a quase 400 graus carrega o AGE (ferrugem do corpo), que fura o intestino do cao e inflama o corpo inteiro; a glicina do caldo de ossos fecha os furos. O po se ADICIONA a racao, nao manda trocar",
+      "promessa": "coceira para, coco firme, pelo brilhando, energia de filhote; ta outro cachorro em 3 semanas",
+      "provas_da_vsl": [
+        "Golden Retriever vivia 17 anos nos anos 70, hoje mal passa dos 10",
+        "Universidade de Wageningen: exposicao 122 vezes maior a compostos do forno",
+        "258 tutores por 8 semanas: 92% digestao, 89% pelo e coceira, 95% movimento, 94% energia"
+      ],
+      "vsl": "vsls/vsl-bbpet.txt",
+      "termos_pt": [
+        "lamber as patas",
+        "racao",
+        "come grama",
+        "coco mole",
+        "mau halito",
+        "cao idoso",
+        "cachorro idoso",
+        "saude do cao",
+        "intestino do cao"
+      ],
+      "termos_en": [
+        "dog food",
+        "kibble",
+        "licks its paws",
+        "dog paws",
+        "toxic foods for dogs",
+        "dog bowl",
+        "senior dog",
+        "aging dog",
+        "dog itching",
+        "dog eats grass",
+        "dog breath"
+      ],
+      "categorias_adplexity": [],
+      "_categorias_nome": [],
+      "_nota_busca": "nao confiar na categoria do AdPlexity: buscar por palavra-chave. Stalk de referencia: notas/2026-10-13_bbpet-stalk/. Nao confundir com o bb (Bone Broth humano, Blivo). Fora dos termos de proposito: cachorro e cao soltos (cachorro = filhote em espanhol; cao casa com texto vietnamita)",
+      "advs": [
+        "adv01",
+        "adv02",
+        "adv03",
+        "adv04",
+        "adv05",
+        "adv06",
+        "adv07"
+      ],
+      "sfunnel": [],
+      "campanhas_ativas": 0
     }
   ]
 }
