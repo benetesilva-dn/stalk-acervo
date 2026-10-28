@@ -2,576 +2,104 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Acervo de Stalk</title>
 <style>
-:root{
-  --bg:#f6f6f4; --lado:#efeeea; --card:#fff; --linha:#e3e2de; --tinta:#1a1a18; --fraco:#6b6a65;
-  --acento:#2f6f4e; --aprova:#2f6f4e; --recusa:#9a3b32; --standby:#8a6d1f; --tagbg:#efeeea;
-}
-@media (prefers-color-scheme:dark){
-  :root{--bg:#16161a; --lado:#1b1b20; --card:#1e1e23; --linha:#32323a; --tinta:#eceaf0; --fraco:#9a98a3;
-        --acento:#5fb98a; --aprova:#5fb98a; --recusa:#e08a80; --standby:#d4b45c; --tagbg:#2a2a31;}
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tinta);
-  font:14px/1.45 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.app{display:flex;align-items:flex-start;min-height:100vh}
-
-/* ---------- lateral ---------- */
-aside{width:236px;flex:0 0 236px;background:var(--lado);border-right:1px solid var(--linha);
-  position:sticky;top:0;height:100vh;overflow-y:auto;padding:16px 14px 24px}
-aside h1{margin:0 0 2px;font-size:16px;letter-spacing:-.01em}
-.meta{color:var(--fraco);font-size:11px;line-height:1.4;margin-bottom:14px;display:block}
-.bloco{margin-bottom:16px}
-.bloco>b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.07em;
-  color:var(--fraco);margin-bottom:6px}
-.chips{display:flex;gap:4px;flex-wrap:wrap}
-.chip{border:1px solid var(--linha);background:var(--card);color:var(--tinta);border-radius:999px;
-  padding:3px 9px;font-size:12px;cursor:pointer;white-space:nowrap;text-align:left}
-.chip:hover{border-color:var(--fraco)}
-.chip[aria-pressed=true]{background:var(--tinta);color:var(--bg);border-color:var(--tinta)}
-.chip i{font-style:normal;opacity:.55;margin-left:4px;font-size:11px}
-aside input,aside select{width:100%;border:1px solid var(--linha);background:var(--card);
-  color:var(--tinta);border-radius:8px;padding:6px 9px;font:inherit;font-size:12px}
-.limpafiltro{margin-top:4px;border:0;background:none;color:var(--fraco);font:inherit;font-size:11px;
-  cursor:pointer;text-decoration:underline;padding:0}
-.abrirfiltros{display:none}
-
-/* ---------- grade ---------- */
-main{flex:1;min-width:0;padding:16px;padding-bottom:120px}
-.grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
-.card{background:var(--card);border:1px solid var(--linha);border-radius:12px;overflow:hidden;
-  display:flex;flex-direction:column}
-.card.decidida{opacity:.5}
-.thumb{aspect-ratio:16/9;background:var(--tagbg);overflow:hidden}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.corpo{padding:10px 12px 12px;display:flex;flex-direction:column;gap:7px;flex:1}
-.topo{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.oid{font:600 13px ui-monospace,SFMono-Regular,Menlo,monospace;cursor:pointer;
-  border-bottom:1px dashed var(--fraco)}
-.nums{font-size:11px;color:var(--fraco);font-variant-numeric:tabular-nums}
-.nums b{color:var(--tinta);font-weight:600}
-.tags{display:flex;gap:4px;flex-wrap:wrap}
-.tag{background:var(--tagbg);border-radius:5px;padding:1px 6px;font-size:11px;color:var(--fraco)}
-.tag.tr{background:var(--acento);color:#fff;font-weight:600}
-.tag.sobe{background:#2f6f4e;color:#fff;font-weight:600}
-.tag.desce{border:1px solid var(--recusa);color:var(--recusa);background:none}
-.tag.cfl{border:1px solid var(--standby);color:var(--standby);background:none}
-.tag.pr{border:1px solid var(--acento);color:var(--acento);background:none}
-h3{margin:0;font-size:13px;font-weight:500;line-height:1.35}
-.lnk{font-size:11px;color:var(--fraco);display:flex;gap:6px;align-items:center;
-  overflow:hidden;white-space:nowrap}
-.lnk a{color:var(--fraco);text-overflow:ellipsis;overflow:hidden}
-.cp{border:0;background:var(--tagbg);color:var(--fraco);border-radius:4px;padding:1px 5px;
-  font-size:10px;cursor:pointer;flex-shrink:0}
-.acoes{display:flex;gap:6px;margin-top:auto;padding-top:4px}
-.acoes button{flex:1;border:1px solid var(--linha);background:transparent;border-radius:7px;
-  padding:6px 4px;font:inherit;font-size:12px;cursor:pointer;color:var(--fraco)}
-.acoes button:hover{border-color:currentColor}
-.b-ap:hover,.b-ap.on{color:var(--aprova);border-color:var(--aprova)}
-.b-sb:hover,.b-sb.on{color:var(--standby);border-color:var(--standby)}
-.b-re:hover,.b-re.on{color:var(--recusa);border-color:var(--recusa)}
-.form{display:none;gap:5px;flex-wrap:wrap;padding-top:6px;border-top:1px dashed var(--linha)}
-.form.aberto{display:flex}
-.form input{flex:1;min-width:120px;border:1px solid var(--linha);background:var(--bg);
-  color:var(--tinta);border-radius:6px;padding:4px 8px;font:inherit;font-size:12px}
-.form>b{font-size:11px;color:var(--fraco);align-self:center}
-.mini{border:1px solid var(--linha);background:var(--bg);color:var(--fraco);border-radius:999px;
-  padding:2px 8px;font-size:11px;cursor:pointer}
-.mini:hover{color:var(--tinta);border-color:var(--fraco)}
-.mini.sug{border-color:var(--acento);color:var(--acento)}
-.mini.on{background:var(--acento);color:#fff;border-color:var(--acento);font-weight:600}
-.mini.feito{margin-left:auto;border-color:var(--fraco)}
-.modo{display:flex;gap:4px;margin-bottom:10px;max-width:340px}
-.acoes.mini3{gap:3px;min-width:96px}
-.acoes.mini3 button{padding:3px 0;font-size:13px;line-height:1}
-.tabela .form{padding-top:5px;border:0;max-width:330px}
-.tabela .cp{margin-left:6px}
-.estado{font-size:11px;font-weight:600}
-.estado.aprovado{color:var(--aprova)} .estado.recusado{color:var(--recusa)}
-.estado.standby{color:var(--standby)}
-.vazio{padding:40px 16px;text-align:center;color:var(--fraco);grid-column:1/-1}
-
-/* ---------- abas ---------- */
-.abas{display:flex;gap:4px;margin-bottom:14px}
-.aba{flex:1;border:1px solid var(--linha);background:var(--card);color:var(--fraco);border-radius:8px;
-  padding:6px 4px;font:inherit;font-size:12px;cursor:pointer}
-.aba[aria-selected=true]{background:var(--tinta);color:var(--bg);border-color:var(--tinta);font-weight:600}
-
-/* ---------- tier ---------- */
-.tier{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;
-  border-radius:5px;font:700 11px ui-monospace,SFMono-Regular,Menlo,monospace;padding:0 4px}
-.t-S{background:#1f5c41;color:#fff} .t-A{background:var(--acento);color:#fff}
-.t-B{background:#c6a63c;color:#1a1a18} .t-C{background:var(--tagbg);color:var(--fraco)}
-.t-D{background:var(--tagbg);color:var(--fraco);opacity:.7}
-.t-\?{background:none;border:1px dashed var(--linha);color:var(--fraco)}
-
-/* ---------- tabela de destinos ---------- */
-.tabela{width:100%;border-collapse:collapse;font-size:12.5px}
-.tabela th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;
-  color:var(--fraco);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--linha);
-  position:sticky;top:0;background:var(--bg);cursor:pointer;white-space:nowrap}
-.tabela th:hover{color:var(--tinta)}
-.tabela td{padding:7px 8px;border-bottom:1px solid var(--linha);vertical-align:top}
-.tabela tbody tr:hover{background:var(--card)}
-.tabela .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.tabela .dom{font-weight:500;word-break:break-all}
-.tabela .sub{color:var(--fraco);font-size:11px}
-.lps{display:flex;gap:3px;flex-wrap:wrap;margin-top:3px}
-.lps button{border:1px solid var(--linha);background:var(--card);color:var(--fraco);border-radius:4px;
-  padding:0 5px;font:600 10px ui-monospace,Menlo,monospace;cursor:pointer}
-.lps button:hover{color:var(--tinta);border-color:var(--fraco)}
-.rolagem{overflow-x:auto}
-
-footer{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);
-  border-top:1px solid var(--linha);padding:10px 16px;display:none}
-footer.tem{display:block}
-.fila{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.fila textarea{flex:1;min-width:200px;height:52px;border:1px solid var(--linha);border-radius:8px;
-  background:var(--bg);color:var(--tinta);padding:6px 9px;
-  font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;resize:none}
-.fila button{border:1px solid var(--tinta);background:var(--tinta);color:var(--bg);border-radius:8px;
-  padding:8px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
-.fila .limpar{background:transparent;color:var(--fraco);border-color:var(--linha);font-weight:400}
-
-/* ---------- telas estreitas: a lateral vira gaveta ---------- */
-@media(max-width:760px){
-  .app{display:block}
-  aside{position:fixed;z-index:40;left:0;top:0;bottom:0;width:80vw;max-width:300px;height:100vh;
-    transform:translateX(-100%);transition:transform .18s ease;box-shadow:0 0 30px rgba(0,0,0,.25)}
-  aside.aberta{transform:none}
-  main{padding:56px 12px 120px}
-  .grade{grid-template-columns:1fr;gap:10px}
-  .abrirfiltros{display:block;position:fixed;z-index:35;top:8px;left:8px;
-    border:1px solid var(--linha);background:var(--card);color:var(--tinta);border-radius:8px;
-    padding:6px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
-}
+  :root {
+    --bg: #f6f5f2; --card: #ffffff; --txt: #1d1d1b; --sub: #6b6a66; --linha: #e3e1dc;
+    --acento: #1f5fbf; --ok: #2e7d4f; --tag: #efede8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161615; --card: #1f1f1e; --txt: #ecebe7; --sub: #a3a29d; --linha: #34332f;
+      --acento: #7aa7ec; --ok: #7cc49a; --tag: #2a2a28;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161615; --card: #1f1f1e; --txt: #ecebe7; --sub: #a3a29d; --linha: #34332f;
+    --acento: #7aa7ec; --ok: #7cc49a; --tag: #2a2a28;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--txt); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 960px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .lead { color: var(--sub); margin: 0 0 28px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--sub); margin: 32px 0 12px; }
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  a.card { display: block; background: var(--card); border: 1px solid var(--linha); border-radius: 10px; padding: 16px 18px;
+           color: inherit; text-decoration: none; transition: border-color .15s; }
+  a.card:hover { border-color: var(--acento); }
+  .card h3 { margin: 0 0 2px; font-size: 18px; }
+  .card .quando { color: var(--sub); font-size: 13px; margin-bottom: 10px; }
+  .card ul { margin: 0 0 12px; padding-left: 18px; }
+  .card li { margin: 2px 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { background: var(--tag); border-radius: 999px; padding: 2px 10px; font-size: 12px; }
+  .tag.ok { color: var(--ok); }
+  .abrir { color: var(--acento); font-weight: 600; font-size: 14px; margin-top: 12px; }
+  .nota { color: var(--sub); font-size: 13px; margin-top: 36px; border-top: 1px solid var(--linha); padding-top: 14px; }
 </style>
 </head>
 <body>
+<main>
+  <h1>Acervo de Stalk</h1>
+  <p class="lead">Um catálogo por produto, no modelo atual: marcar, filtrar e copiar a seleção para a conversa.</p>
 
-<button class="abrirfiltros" id="abrir">Filtros</button>
-
-<div class="app">
-  <aside id="lado">
-    <h1>Acervo de Stalk</h1>
-    <span class="meta" id="meta">carregando…</span>
-    <div class="abas" role="tablist">
-      <button class="aba" id="ab-ofertas" role="tab" aria-selected="true">Ofertas</button>
-      <button class="aba" id="ab-destinos" role="tab" aria-selected="false">Destinos</button>
-    </div>
-    <div id="filtros"></div>
-  </aside>
-  <main>
-    <div class="grade" id="grade"><div class="vazio">carregando…</div></div>
-    <div class="rolagem" id="destinos" hidden></div>
-  </main>
-</div>
-
-<footer id="barra">
-  <div class="fila">
-    <textarea id="linha" readonly></textarea>
-    <button id="copiar">Copiar para o Claude</button>
-    <button class="limpar" id="limpar">Limpar</button>
+  <h2>Por produto</h2>
+  <div class="grade">
+    <a class="card" href="bbpet.html">
+      <h3>BBPet · Nutri My Pet</h3>
+      <div class="quando">AdPlexity, 13/10 a 26/10/2026 · catálogo v10</div>
+      <ul>
+        <li>695 páginas do nicho de cão</li>
+        <li>59 já feitas ou aprovadas (✓ / ▶)</li>
+        <li>8 sugestões para produzir (★)</li>
+      </ul>
+      <div class="tags"><span class="tag">Funis</span><span class="tag">Famílias</span><span class="tag">Por empresa</span><span class="tag">Por funil</span><span class="tag">Ângulos</span><span class="tag ok">seleção</span></div>
+      <div class="abrir">Abrir catálogo →</div>
+    </a>
+    <a class="card" href="nanomag.html">
+      <h3>NanoMag · Doutor Nature</h3>
+      <div class="quando">AdPlexity, 08/10/2026 (busca + cauda)</div>
+      <ul>
+        <li>336 páginas de neuropatia e nervo</li>
+        <li>5 já feitas (adv01 a adv04 e a gêmea do adv02)</li>
+        <li>Sem a coluna de 90 dias e sem sugestões</li>
+      </ul>
+      <div class="tags"><span class="tag">Funis</span><span class="tag">Famílias</span><span class="tag ok">seleção</span></div>
+      <div class="abrir">Abrir catálogo →</div>
+    </a>
   </div>
-</footer>
 
-<script>
-/* ============================================================================
- * Painel do acervo de stalk — uma VIEW de acervo.json, nada mais.
- *
- * Ele NAO e a fonte da verdade: as decisoes vivem em decisoes.jsonl no repo.
- * O localStorage aqui so segura os cliques ainda nao enviados, para voce nao
- * perder o trabalho ao fechar a aba.
- *
- * O botao nao escreve em servidor nenhum de proposito: pagina estatica nao pode
- * guardar credencial sem expor. Ela monta uma linha, voce cola no Claude, e o
- * Claude escreve. Zero infra para manter.
- * ==========================================================================*/
-const PEND = 'stalk_pendentes_v1';
-let ACERVO = null, PRODUTOS = [], pend = {};
-try { pend = JSON.parse(localStorage.getItem(PEND) || '{}'); } catch (e) { pend = {}; }
+  <h2>Renovação de criativos</h2>
+  <div class="grade">
+    <a class="card" href="h50-adv108.html">
+      <h3>H50 · ads para o adv108</h3>
+      <div class="quando">AdPlexity, 11/10/2026 · base da subida de 15/10</div>
+      <ul>
+        <li>Pack de anúncios por headline, com 10 imagens cada</li>
+        <li>Não é stalk de páginas: são anúncios para um adv que já roda</li>
+      </ul>
+      <div class="tags"><span class="tag">pack de ads</span><span class="tag ok">seleção</span></div>
+      <div class="abrir">Abrir painel →</div>
+    </a>
+  </div>
 
-/* motivos pre-codificados: um clique na maioria dos casos e — o que importa mais —
-   motivo repetido vira criterio automatico depois. Texto livre continua valendo. */
-const MOTIVOS = ['pagina de venda', 'arbitragem de clique', 'nicho sem produto nosso',
-  'ja modelamos parecido', 'criativo fraco', 'landing nao abre', 'pouca distribuicao'];
+  <h2>Arquivo</h2>
+  <div class="grade">
+    <a class="card" href="arquivo.html">
+      <h3>Acervo antigo (modelo de 21/09)</h3>
+      <div class="quando">19 coletas, de setembro até 13/10/2026</div>
+      <ul>
+        <li>1.656 ofertas com id OF-NNNN</li>
+        <li>Coletas de portais (EUA, mobile, transição por país), categoria de 21/09, NanoMag e BBPet 13/10</li>
+      </ul>
+      <div class="tags"><span class="tag">modelo antigo</span></div>
+      <div class="abrir">Abrir arquivo →</div>
+    </a>
+  </div>
 
-const filtros = { tier: '', trilha: '', produto: '', nicho: '', transicao: '', formato: '', estado: '', fonte: '', q: '' };
-let ordem = 'dias', vista = 'ofertas', ordemDest = 'dias_no_ar', invDest = true, agrupar = false;
-
-const salvar = () => { try { localStorage.setItem(PEND, JSON.stringify(pend)); } catch (e) {} desenharBarra(); };
-const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-
-async function carregar() {
-  /* no-cache = revalida sempre (304 quando nao mudou, barato). Sem isso o
-     navegador serve o acervo antigo depois de uma coleta nova, e o painel
-     mostra dado velho sem nenhum aviso — que e pior do que nao mostrar nada. */
-  const pega = u => fetch(u, { cache: 'no-cache' }).then(r => r.json());
-  const [a, p] = await Promise.all([
-    pega('acervo.json'),
-    pega('produtos.json').catch(() => ({ produtos: [] }))
-  ]);
-  ACERVO = a; PRODUTOS = (p.produtos || []).filter(x => x.nicho);
-  const L = Object.values(a.ofertas);
-  document.getElementById('meta').innerHTML =
-    L.length + ' ofertas · ' + a.coletas.length + ' coletas<br>atualizado ' + a.atualizado;
-  montarFiltros(L); desenhar();
-}
-
-/* ---------- filtros ---------- */
-/* produto filtra por produtos_possiveis, nao so pelo primeiro: 104 ofertas batem
-   com mais de um produto (emagrecimento serve bb E liver), e esconder a segunda
-   opcao atras da ordenacao seria eu decidindo por voce */
-function valor(o, campo) {
-  if (campo === 'tier') return o.tier || '?';
-  if (campo === 'trilha') return o.trilha || '';
-  if (campo === 'nicho') return o.nicho || '';
-  /* '' quando a landing nunca foi aberta: ausencia de classificacao nao e "nao
-     e transicao". Esses ficam de FORA dos dois lados do filtro, de proposito. */
-  if (campo === 'transicao') return o.transicao ? 'sim' : (o.formato_destino ? 'nao' : '');
-  if (campo === 'formato') return o.formato_destino || '';
-  if (campo === 'estado') return o.estado || 'novo';
-  if (campo === 'fonte') return (o.fontes || []).join('+');
-  return '';
-}
-const bate = (o, campo, v) => campo === 'produto'
-  ? (o.produtos_possiveis || []).includes(v)
-  : valor(o, campo) === v;
-
-function montarFiltros(L) {
-  const defs = [
-    ['tier', 'força', ['S', 'A', 'B', 'C', 'D', '?']],
-    ['transicao', 'é transição?', ['sim', 'nao']],
-    ['formato', 'formato do destino', [...new Set(L.map(o => o.formato_destino).filter(Boolean))].sort()],
-    ['trilha', 'trilha', ['A', 'B']],
-    ['produto', 'produto', PRODUTOS.map(p => p.tag)],
-    ['estado', 'estado', ['novo', 'aprovado', 'recusado', 'standby']],
-    ['fonte', 'fonte', [...new Set(L.map(o => valor(o, 'fonte')))].filter(Boolean).sort()]
-  ];
-  let html = '<div class="bloco"><input type="search" id="fq" placeholder="buscar headline, domínio, ID…"></div>';
-  html += `<div class="bloco"><b>ordenar</b><select id="fordem">
-      <option value="dias">mais dias no ar</option><option value="portais">mais portais</option>
-      <option value="paises">mais países</option><option value="id">ID</option></select></div>`;
-  for (const [campo, rotulo, vals] of defs) {
-    const itens = vals.map(v => {
-      const n = L.filter(o => bate(o, campo, v)).length;
-      return n ? `<button class="chip" data-f="${campo}" data-v="${esc(v)}" aria-pressed="false">${esc(v)}<i>${n}</i></button>` : '';
-    }).join('');
-    if (itens) html += `<div class="bloco"><b>${rotulo}</b><div class="chips">${itens}</div></div>`;
-  }
-  /* nicho tem cauda longa (dezenas de valores): select, nao chip */
-  const nichos = [...new Set(L.map(o => o.nicho).filter(Boolean))].sort();
-  html += `<div class="bloco"><b>nicho</b><select id="fnicho"><option value="">todos</option>` +
-    nichos.map(n => `<option value="${esc(n)}">${esc(n)} (${L.filter(o => o.nicho === n).length})</option>`).join('') +
-    `</select></div>`;
-  html += `<button class="limpafiltro" id="flimpa">limpar filtros</button>`;
-
-  const box = document.getElementById('filtros');
-  box.innerHTML = html;
-  box.querySelectorAll('.chip').forEach(b => b.onclick = () => {
-    const f = b.dataset.f, v = b.dataset.v;
-    filtros[f] = filtros[f] === v ? '' : v;
-    box.querySelectorAll(`.chip[data-f="${f}"]`).forEach(x =>
-      x.setAttribute('aria-pressed', String(x.dataset.v === filtros[f])));
-    desenhar();
-  });
-  document.getElementById('fnicho').onchange = e => { filtros.nicho = e.target.value; desenhar(); };
-  document.getElementById('fordem').onchange = e => { ordem = e.target.value; desenhar(); };
-  document.getElementById('fq').oninput = e => { filtros.q = e.target.value.toLowerCase(); desenhar(); };
-  document.getElementById('flimpa').onclick = () => {
-    Object.keys(filtros).forEach(k => filtros[k] = '');
-    box.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', 'false'));
-    document.getElementById('fnicho').value = ''; document.getElementById('fq').value = '';
-    desenhar();
-  };
-}
-
-/* ---------- grade ---------- */
-function filtrar() {
-  let L = Object.values(ACERVO.ofertas);
-  for (const k of ['tier', 'trilha', 'produto', 'nicho', 'transicao', 'formato', 'estado', 'fonte'])
-    if (filtros[k]) L = L.filter(o => bate(o, k, filtros[k]));
-  if (filtros.q) {
-    const q = filtros.q;
-    L = L.filter(o => (o.id + ' ' + o.landing + ' ' + o.nicho + ' ' +
-      (o.criativos || []).map(c => c.headline).join(' ')).toLowerCase().includes(q));
-  }
-  const ch = { dias: 'dias_no_ar', portais: 'portais', paises: 'paises' }[ordem];
-  return ch ? L.sort((a, b) => (b[ch] || 0) - (a[ch] || 0)) : L.sort((a, b) => a.id.localeCompare(b.id));
-}
-
-/* aceleracao = ritmo na janela / ritmo na vida inteira. E o unico numero que
-   olha para a FRENTE — dias, portais e criativos todos medem o passado. Fica
-   fora do tier de proposito: e leitura de momento, nao de forca acumulada.
-   Uma peca pode ser tier S e estar morrendo; e justamente isso que importa ver. */
-function acelTag(o) {
-  if (o.aceleracao == null) return '';
-  const a = o.aceleracao;
-  const cls = a >= 1.2 ? 'sobe' : a <= 0.8 ? 'desce' : '';
-  const txt = a >= 1.2 ? '▲ esquentando' : a <= 0.8 ? '▼ esfriando' : '● estável';
-  return `<span class="tag ${cls}" title="ritmo na janela ÷ ritmo na vida = ${a}">${txt} ${a}×</span>`;
-}
-
-function cartao(o) {
-  const c = (o.criativos || [])[0] || {};
-  const p = pend[o.id];
-  const nums = [o.dias_no_ar ? `<b>${o.dias_no_ar}d</b> no ar` : '',
-    o.portais ? `<b>${o.portais}</b> portais` : '',
-    o.paises ? `<b>${o.paises}</b> países` : ''].filter(Boolean).join(' · ');
-  /* mostra TODOS os produtos possiveis, com "?" quando o casamento foi fraco —
-     a ambiguidade e informacao, escondê-la seria eu escolhendo por voce */
-  const prods = (o.produtos_possiveis || []).map(t =>
-    `<span class="tag pr">${esc(t)}${t === o.produto_alvo && o.match_por === 'nicho' ? '' : '?'}</span>`).join('');
-  const tags = [
-    o.transicao ? '<span class="tag tr">transição</span>' : '',
-    o.nicho ? `<span class="tag">${esc(o.nicho)}</span>` : '',
-    prods,
-    acelTag(o),
-    o.formato_conflito ? `<span class="tag cfl" title="coletas discordam: ${esc(o.formato_conflito.join(' vs '))}">classificação em conflito</span>` : '',
-    !o.formato_destino ? '<span class="tag">landing não aberta</span>' : ''
-  ].join('');
-  const jaDecidida = o.estado && o.estado !== 'novo';
-  return `<article class="card${jaDecidida ? ' decidida' : ''}" data-id="${o.id}">
-    ${c.imagem ? `<div class="thumb"><img loading="lazy" src="${esc(c.imagem)}" alt=""
-       onerror="this.closest('.thumb').style.display='none'"></div>` : ''}
-    <div class="corpo">
-      <div class="topo"><span class="tier t-${o.tier}" title="${o.tier === '?' ? 'sem medição de longevidade' : o.sinais + ' de 3 sinais'}">${o.tier}</span>
-        <span class="oid" data-cp="${o.id}" title="clique para copiar">${o.id}</span>
-        <span class="nums">${nums}</span></div>
-      <div class="tags">${tags}</div>
-      <h3>${esc(c.headline || '(sem headline)')}</h3>
-      <div class="lnk"><a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer">${esc(o.landing)}</a>
-        <button class="cp" data-cp="${esc(o.url)}">copiar</button></div>
-      ${jaDecidida ? `<div class="estado ${o.estado}">${o.estado}${(o.decisoes[0] || {}).motivo ? ' — ' + esc(o.decisoes[0].motivo) : ''}</div>` : ''}
-      ${p ? `<div class="estado ${p.estado}">${p.estado}${p.produtos ? ': ' + esc(p.produtos.join(', ')) : p.motivo ? ' — ' + esc(p.motivo) : ''}</div>` : ''}
-      <div class="acoes">
-        <button class="b-ap${p && p.estado === 'aprovado' ? ' on' : ''}" data-ac="aprovado">aprovar</button>
-        <button class="b-sb${p && p.estado === 'standby' ? ' on' : ''}" data-ac="standby">standby</button>
-        <button class="b-re${p && p.estado === 'recusado' ? ' on' : ''}" data-ac="recusado">recusar</button>
-      </div>
-      <div class="form" data-form></div>
-    </div></article>`;
-}
-
-function desenhar() {
-  const gr = document.getElementById('grade'), ds = document.getElementById('destinos');
-  gr.hidden = vista !== 'ofertas'; ds.hidden = vista !== 'destinos';
-  if (vista === 'ofertas') {
-    const L = filtrar();
-    gr.innerHTML = L.length ? L.map(cartao).join('') : '<div class="vazio">nenhuma oferta com esses filtros</div>';
-  } else desenharDestinos();
-  desenharBarra();
-}
-
-/* ---------- aba DESTINOS ----------
- * A unidade e o DESTINO — a landing inteira, com path. E ela que se modela: o
- * wellnessgaze serve tres nichos em onze paginas, e "wellnessgaze.com" sozinho
- * nao aponta para advertorial nenhum. O agrupamento por dominio existe como
- * OPCAO (para enxergar o operador por tras), nunca como substituto.
- *
- * Tabela e nao grade porque aqui o trabalho e COMPARAR numeros entre pecas —
- * cartao com imagem esconde justamente a comparacao.
- *
- * Os tres sinais do tier ficam em colunas proprias, sempre. Paises aparece
- * como coluna mas NAO pontua: diz que a operacao traduz, nao que a peca
- * converte. Decidir e seu, olhando de qual eixo veio a forca.
- */
-function desenharDestinos() {
-  const box = document.getElementById('destinos');
-  const cab = `<div class="modo">
-      <button class="aba" data-ag="0" aria-selected="${!agrupar}">por destino</button>
-      <button class="aba" data-ag="1" aria-selected="${agrupar}">agrupado por domínio</button>
-    </div>`;
-  box.innerHTML = cab + (agrupar ? tabelaDominios() : tabelaDestinos());
-
-  box.querySelectorAll('[data-ag]').forEach(b => b.onclick = () => {
-    agrupar = b.dataset.ag === '1';
-    ordemDest = 'dias_no_ar'; invDest = true;
-    desenharDestinos();
-  });
-  box.querySelectorAll('.tabela th[data-ord]').forEach(th => th.onclick = () => {
-    const k = th.dataset.ord;
-    if (ordemDest === k) invDest = !invDest; else { ordemDest = k; invDest = true; }
-    desenharDestinos();
-  });
-  box.querySelectorAll('[data-ir]').forEach(b => b.onclick = () => irPara(b.dataset.ir));
-}
-
-function irPara(id) {
-  trocarAba('ofertas');
-  Object.keys(filtros).forEach(k => filtros[k] = '');
-  filtros.q = id.toLowerCase();
-  document.getElementById('fq').value = id;
-  document.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', 'false'));
-  desenhar();
-}
-
-const ordenar = L => L.sort((a, b) => {
-  const va = a[ordemDest], vb = b[ordemDest];
-  const d = typeof va === 'string' ? String(vb).localeCompare(String(va)) : (vb || 0) - (va || 0);
-  return invDest ? d : -d;
-});
-
-/* --- por destino: uma linha por landing. E aqui que se escolhe o advertorial --- */
-function tabelaDestinos() {
-  const L = ordenar(filtrar());
-  if (!L.length) return '<div class="vazio">nenhum destino com esses filtros</div>';
-  const cols = [['dias_no_ar', 'dias'], ['portais', 'portais'], ['n_criativos', 'criativos'], ['paises', 'países']];
-  return `<table class="tabela"><thead><tr>
-      <th data-ord="tier">força</th><th>destino</th>
-      ${cols.map(([k, r]) => `<th class="n" data-ord="${k}">${r}</th>`).join('')}
-      <th>decisão</th></tr></thead><tbody>` +
-    L.map(o => {
-      const c = (o.criativos || [])[0] || {};
-      const p = pend[o.id];
-      return `<tr data-id="${o.id}">
-        <td><span class="tier t-${o.tier}" title="${o.tier === '?' ? 'sem medição de longevidade' : o.sinais + ' de 3 sinais'}">${o.tier}</span></td>
-        <td><div class="dom"><a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer">${esc(o.landing)}</a></div>
-          <div class="sub">${o.transicao ? '<span class="tag tr">transição</span> ' : ''}${acelTag(o)}${o.formato_conflito ? '<span class="tag cfl" title="' + esc(o.formato_conflito.join(' vs ')) + '">conflito</span>' : ''} ${esc(o.nicho || '—')}${o.produtos_possiveis.length ? ' → <b>' + esc(o.produtos_possiveis.join(',')) + '</b>' : ''}
-            <button data-ir="${o.id}" class="cp">${o.id}</button></div>
-          <div class="sub">${esc((c.headline || '').slice(0, 92))}</div></td>
-        <td class="n">${o.dias_no_ar || '—'}</td><td class="n">${o.portais || '—'}</td>
-        <td class="n">${o.n_criativos || '—'}</td><td class="n">${o.paises || '—'}</td>
-        <td><div class="acoes mini3">
-            <button class="b-ap${p && p.estado === 'aprovado' ? ' on' : ''}" data-ac="aprovado">✓</button>
-            <button class="b-sb${p && p.estado === 'standby' ? ' on' : ''}" data-ac="standby">~</button>
-            <button class="b-re${p && p.estado === 'recusado' ? ' on' : ''}" data-ac="recusado">✕</button>
-          </div><div class="form" data-form></div>
-          ${p ? `<div class="estado ${p.estado}">${p.estado}${p.produtos ? ': ' + esc(p.produtos.join(',')) : p.motivo ? ' — ' + esc(p.motivo) : ''}</div>` : ''}
-        </td></tr>`;
-    }).join('') + '</tbody></table>';
-}
-
-/* --- agrupado por dominio: quem e o OPERADOR por tras das paginas --- */
-function tabelaDominios() {
-  const D = ordenar(Object.values(ACERVO.destinos || {}).filter(e => {
-    if (filtros.tier && e.tier !== filtros.tier) return false;
-    if (filtros.produto && !(e.produtos || []).includes(filtros.produto)) return false;
-    if (filtros.nicho && !(e.nichos || []).includes(filtros.nicho)) return false;
-    if (filtros.transicao === 'sim' && !e.transicoes) return false;
-    if (filtros.q && !(e.dominio + ' ' + e.nichos.join(' ')).toLowerCase().includes(filtros.q)) return false;
-    return true;
-  }));
-  if (!D.length) return '<div class="vazio">nenhum domínio com esses filtros</div>';
-  const cols = [['dias_no_ar', 'dias'], ['portais', 'portais'], ['criativos', 'criativos'],
-    ['landings', 'páginas'], ['paises', 'países'], ['transicoes', 'transição']];
-  return `<table class="tabela"><thead><tr><th data-ord="tier">força</th><th>domínio</th>
-      ${cols.map(([k, r]) => `<th class="n" data-ord="${k}">${r}</th>`).join('')}
-      </tr></thead><tbody>` + D.map(e => `<tr>
-      <td><span class="tier t-${e.tier}" title="${e.tier === '?' ? 'sem medição' : e.sinais + ' de 3 sinais'}">${e.tier}</span></td>
-      <td><div class="dom">${esc(e.dominio)}</div>
-        <div class="sub">${esc(e.nichos.slice(0, 4).join(' · ')) || '—'}${e.produtos.length ? ' → <b>' + esc(e.produtos.join(',')) + '</b>' : ''}</div>
-        <div class="lps">${e.ids.slice(0, 16).map(id => `<button data-ir="${id}">${id.replace('OF-', '')}</button>`).join('')}${e.ids.length > 16 ? '<span class="sub">+' + (e.ids.length - 16) + '</span>' : ''}</div></td>
-      <td class="n">${e.dias_no_ar || '—'}</td><td class="n">${e.portais || '—'}</td>
-      <td class="n">${e.criativos}</td><td class="n">${e.landings}</td>
-      <td class="n">${e.paises || '—'}</td><td class="n">${e.transicoes || '—'}</td></tr>`).join('') +
-    '</tbody></table>';
-}
-
-function trocarAba(v) {
-  vista = v;
-  document.getElementById('ab-ofertas').setAttribute('aria-selected', String(v === 'ofertas'));
-  document.getElementById('ab-destinos').setAttribute('aria-selected', String(v === 'destinos'));
-  desenhar();
-}
-document.getElementById('ab-ofertas').onclick = () => trocarAba('ofertas');
-document.getElementById('ab-destinos').onclick = () => trocarAba('destinos');
-
-/* ---------- decisao ---------- */
-/* aprovar pede PRODUTO (a marca e por oferta x produto: a mesma landing pode
-   virar adv pro cells E pro liver); recusar e standby pedem MOTIVO, sempre —
-   e o motivo, nao a decisao, que ensina o criterio da fila automatica */
-function abrirForm(card, acao) {
-  const box = card.querySelector('[data-form]');
-  const id = card.dataset.id;
-  const o = ACERVO.ofertas[id];
-  if (acao === 'aprovado') {
-    /* MULTIPLA de proposito: o mesmo advertorial costuma servir a mais de um
-       produto — o adv75 (figado) virou argibeet, h50 e map. Forcar escolha
-       unica obrigaria a decidir tres vezes a mesma peca. */
-    const sug = new Set(o.produtos_possiveis || []);
-    const sel = new Set((pend[id] && pend[id].produtos) || []);
-    box.innerHTML = '<b>para quais produtos?</b>' + PRODUTOS.map(p =>
-      `<button class="mini${sug.has(p.tag) ? ' sug' : ''}${sel.has(p.tag) ? ' on' : ''}" data-prod="${esc(p.tag)}">${esc(p.tag)}</button>`).join('') +
-      '<button class="mini feito" data-feito>pronto</button>';
-    box.querySelectorAll('[data-prod]').forEach(b => b.onclick = () => {
-      const t = b.dataset.prod;
-      sel.has(t) ? sel.delete(t) : sel.add(t);
-      b.classList.toggle('on', sel.has(t));
-      /* sem produto nenhum deixa de ser aprovacao: some da fila em vez de virar
-         uma linha "+ OF-0503" sem destino, que eu nao saberia processar */
-      if (sel.size) pend[id] = { estado: 'aprovado', produtos: [...sel] }; else delete pend[id];
-      salvar();
-    });
-    box.querySelector('[data-feito]').onclick = () => desenhar();
-  } else {
-    box.innerHTML = '<b>por quê?</b>' +
-      MOTIVOS.map(m => `<button class="mini" data-mot="${esc(m)}">${esc(m)}</button>`).join('') +
-      `<input placeholder="outro motivo… (Enter)" data-livre>`;
-    const reg = m => { if (!m) return; pend[id] = { estado: acao, motivo: m }; salvar(); desenhar(); };
-    box.querySelectorAll('[data-mot]').forEach(b => b.onclick = () => reg(b.dataset.mot));
-    const inp = box.querySelector('[data-livre]');
-    inp.onkeydown = e => { if (e.key === 'Enter') reg(inp.value.trim()); };
-    setTimeout(() => inp.focus(), 30);
-  }
-  box.classList.add('aberto');
-}
-
-document.addEventListener('click', e => {
-  const cp = e.target.closest('[data-cp]');
-  if (cp) {
-    const t = cp.dataset.cp;
-    const ok = () => { const o = cp.textContent; cp.textContent = 'copiado'; setTimeout(() => cp.textContent = o, 900); };
-    if (navigator.clipboard) navigator.clipboard.writeText(t).then(ok, ok);
-    else { const a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); document.execCommand('copy'); a.remove(); ok(); }
-    return;
-  }
-  const ac = e.target.closest('[data-ac]');
-  if (ac) {
-    /* [data-id] e nao .card: o mesmo handler serve o cartao da aba Ofertas e a
-       linha da tabela de Destinos — uma UI de decisao so, em dois lugares */
-    const alvo = ac.closest('[data-id]'), id = alvo.dataset.id;
-    if (pend[id] && pend[id].estado === ac.dataset.ac) { delete pend[id]; salvar(); desenhar(); }
-    else abrirForm(alvo, ac.dataset.ac);
-  }
-});
-
-/* gaveta no celular */
-const lado = document.getElementById('lado');
-document.getElementById('abrir').onclick = () => lado.classList.toggle('aberta');
-document.getElementById('grade').addEventListener('click', () => lado.classList.remove('aberta'));
-
-/* ---------- a linha ---------- */
-/* formato deliberadamente simples: + aprova, ~ standby, - recusa. Legivel para
-   voce, trivial de parsear para o Claude, e nao quebra se voce editar a mao. */
-function montarLinha() {
-  const ids = Object.keys(pend);
-  if (!ids.length) return '';
-  const sig = { aprovado: '+', standby: '~', recusado: '-' };
-  return '@stalk\n' + ids.map(id => sig[pend[id].estado] + ' ' + id + ' ' +
-    ((pend[id].produtos || []).join(',') || pend[id].motivo || '')).join('\n');
-}
-function desenharBarra() {
-  const txt = montarLinha();
-  document.getElementById('linha').value = txt;
-  document.getElementById('barra').classList.toggle('tem', !!txt);
-  document.getElementById('copiar').textContent = 'Copiar ' + Object.keys(pend).length + ' para o Claude';
-}
-document.getElementById('copiar').onclick = () => {
-  const t = document.getElementById('linha');
-  t.select(); navigator.clipboard ? navigator.clipboard.writeText(t.value) : document.execCommand('copy');
-  const b = document.getElementById('copiar'); const o = b.textContent;
-  b.textContent = 'copiado ✓'; setTimeout(() => b.textContent = o, 1200);
-};
-document.getElementById('limpar').onclick = () => { pend = {}; salvar(); desenhar(); };
-
-carregar().catch(e => {
-  document.getElementById('grade').innerHTML =
-    '<div class="vazio">não consegui carregar o acervo.json<br><small>' + esc(e.message) + '</small></div>';
-});
-</script>
+  <p class="nota">A marcação de cada catálogo fica no navegador de quem abre. Atualizado em 28/10/2026.</p>
+</main>
 </body>
 </html>
