@@ -8,7 +8,7 @@ produto**: a capa tem um cartão por stalk, e cada cartão abre o catálogo daqu
 |---|---|
 | `index.html` | a capa: um cartão por produto, feita à mão |
 | `bbpet.html` | catálogo BBPet (cópia de `notas/2026-10-13_bbpet-stalk/stalk-bbpet.html`) |
-| `nanomag.html` | catálogo NanoMag de 08/10 (sem abas de empresa/funil/ângulo, sem 90 dias, sem sugestões) |
+| `nanomag.html` | catálogo NanoMag de 08/10 (sem 90 dias, sem sugestões; ângulos e empresas em `notas/2026-10-08_nanomag-stalk/`) |
 | `h50-adv108.html` | pack de ads da renovação do adv108 (cópia de `native-ads-stalk/saida_h50-adv108_2026-10-11/bruto/ads-adv108-h50.html`) |
 | `arquivo.html` | o painel antigo (modelo de 21/09), lê `acervo.json` |
 | `acervo.json` | as coletas acumuladas até 13/10, uma oferta por ID estável `OF-NNNN` — **o ativo** |
